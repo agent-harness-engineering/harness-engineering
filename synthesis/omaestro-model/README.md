@@ -59,6 +59,11 @@ See [architecture.md](architecture.md) for the full system design.
 | [integration-spec.md](integration-spec.md) | How each reference model maps to omaestro components |
 | [roadmap.md](roadmap.md) | Implementation phases with deliverables |
 
+## License
+
+Copyright 2026 Ologos Corp. Licensed under the Apache License, Version 2.0.
+See [LICENSE](LICENSE) and [NOTICE](NOTICE) for details.
+
 ## Legal Provenance
 
 Every design decision in omaestro traces to one of:

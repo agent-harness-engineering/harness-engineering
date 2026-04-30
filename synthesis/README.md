@@ -59,13 +59,13 @@ synthesis/
   nemoclaw-model/        <- runtime sandboxing (Apache 2.0, full source)
   opencode-model/        <- open-source agent-tool dispatch (MIT, source-derived)
   langsmith-model/       <- observability and evaluation patterns (MIT SDK)
+  omaestro-model/        <- THE SYNTHESIS: unified architecture from all five models
 ```
 
 ## Status
 
 - [x] Claude Code model -- capabilities, interfaces, agent model, safety model, gaps
 - [x] NemoClaw model -- full Apache 2.0 source + documentation
-- [x] OpenCode model -- capabilities, interfaces (agent-model, safety-model, gaps pending)
-- [x] LangSmith model -- capabilities, interfaces, observability model (eval-model, gaps pending)
-- [ ] Synthesis architecture document -- the actual unified design
-- [ ] 4M integration spec -- how governance maps to sandbox policies and traces
+- [x] OpenCode model -- capabilities, interfaces, agent model, safety model, gaps
+- [x] LangSmith model -- capabilities, interfaces, observability model, eval model, gaps
+- [x] omaestro synthesis -- architecture, agent types, defense-in-depth, integration spec, roadmap

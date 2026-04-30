@@ -53,6 +53,7 @@ See [architecture.md](architecture.md) for the full system design.
 
 | File | Contents |
 |------|----------|
+| [synthesis-analysis.md](synthesis-analysis.md) | **START HERE** — Cross-cutting analysis justifying every design decision |
 | [architecture.md](architecture.md) | System architecture, component interaction, data flow |
 | [agent-types.md](agent-types.md) | Agent type definitions, tool allowlists, sandbox mappings |
 | [defense-in-depth.md](defense-in-depth.md) | Six-layer security model with provenance for each layer |

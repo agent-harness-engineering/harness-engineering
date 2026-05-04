@@ -116,6 +116,7 @@ NAMING_MAP_ROWS = [
     ["The governance ledger (Stream A)", "audit/governance.jsonl", "Append-only file", "File-level schema-versioned; tamper-evident; run-finalized at exit"],
     ["The operational trace (Stream B)", "OTel spans via OTLP", "Wire stream", "Default exporter: Arize Phoenix self-hosted"],
     ["The wire protocol", "stdio JSON-RPC on FDs 3/4", "Protocol", "Per-agent-run lifecycle; fail-stop on disconnect or timeout"],
+    ["The digital thread / MBSE modeling layer", "O-Model", "Repository / companion product", "agent-harness-engineering/o-model — UAF-conformant, SysMLv2-friendly; reads runtime artefacts as the model; one-way XMI export for Papyrus / Capella consumption"],
 ]
 
 NAMING_MAP_REPO_TABLE_HEADERS = ["Repository", "URL", "Visibility", "Role"]
@@ -124,6 +125,7 @@ NAMING_MAP_REPO_TABLE_ROWS = [
     ["agent-harness-engineering/omaestro", "(redacted in public preprint; Zenodo DOI to be minted)", "Private (initial)", "Reference implementation of the governance plane"],
     ["agent-harness-engineering/sec-agent", "(redacted in public preprint; Zenodo DOI to be minted)", "Private (initial)", "Reference implementation of the security peer agent"],
     ["agent-harness-engineering/qa-agent", "(planned)", "Private (initial)", "Reference implementation of the quality peer agent"],
+    ["agent-harness-engineering/o-model", "(redacted in public preprint; Zenodo DOI to be minted)", "Private (initial)", "Reference implementation of the digital thread / MBSE modeling layer (UAF-conformant, SysMLv2-friendly)"],
     ["agent-harness-engineering/ThinxS", "(redacted in public preprint)", "Private", "Predecessor 4M-tradition harness; lineage analysis"],
     ["agent-harness-engineering/harness-engineering", "(public)", "Public", "This research programme; theory, synthesis, evaluations"],
     ["ologos-corp/ologos-ai", "(redacted in public preprint)", "Private", "Reference deployment / operator system"],

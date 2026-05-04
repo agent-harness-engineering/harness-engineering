@@ -131,6 +131,33 @@ NAMING_MAP_REPO_TABLE_ROWS = [
 
 
 # ---------------------------------------------------------------------------
+# Appendix G.4 — Module Roster (modular federated digital enterprise framing)
+# ---------------------------------------------------------------------------
+
+MODULE_ROSTER_INTRO = (
+    "The reference implementation is structured as a modular federated digital "
+    "enterprise: omaestro is the governance plane for an N-module enterprise, "
+    "where each capability domain attaches as an independently-governed module "
+    "with its own manifest, gates, tool registry, and model-mode choice. Shared "
+    "infrastructure (one orchestrator binary, one wire protocol, one verification "
+    "chain, one peer-agent ecosystem) underlies all modules. The v1 reference "
+    "deployment ships modules 1 and 2; subsequent modules attach without "
+    "architectural change. This subsection enumerates the planned module roster."
+)
+
+MODULE_ROSTER_HEADERS = ["#", "Module", "Telos", "Likely model-mode", "Distinguishing constraint", "v1 status"]
+
+MODULE_ROSTER_ROWS = [
+    ["1", "Dev", "Code work — software engineering, code review, test authoring, build orchestration", "harness_owned (frontier reasoning)", "Tight code-quality gates; secrets and force-push emphasis", "v1.0 — reference deployment"],
+    ["2", "Ops / Infra", "System administration — deployment, configuration management, infrastructure as code", "single (local LLM)", "High-volume, cost-sensitive; tight destructive-action gates", "v1.0 — reference deployment"],
+    ["3", "Digital Engineering", "Systems engineering and MBSE — model-based design, requirements traceability, verification", "single or multi", "Long-running model-based artifacts; traceability across artifact lifecycle", "Future"],
+    ["4", "ERP", "Business processes — finance, procurement, HR, supplier management", "single (audited cloud)", "Compliance-heavy; strict audit retention; PII gates", "Future"],
+    ["5", "Mod-Sim", "Modeling and simulation — physics, finance, operations research", "single specialized", "Specialized model selection; long compute jobs; GPU/HPC profile awareness", "Future"],
+    ["N+", "Future capabilities", "TBD per organization", "Per-module choice", "Same federated pattern; no architecture change required", "Future"],
+]
+
+
+# ---------------------------------------------------------------------------
 # Appendix H — Industry Benchmarks (placeholder structure)
 # ---------------------------------------------------------------------------
 
@@ -299,6 +326,21 @@ def build_document() -> Document:
         "conventions are satisfiable by thin pointer files. Conformant "
         "implementations may use different concrete names, identity providers, or "
         "transport choices within the constraints documented above.",
+    )
+    doc.add_paragraph()
+
+    add_heading(doc, "G.4 Module Roster (Modular Federated Digital Enterprise)", level=2)
+    add_paragraph(doc, MODULE_ROSTER_INTRO)
+    doc.add_paragraph()
+    make_table(doc, MODULE_ROSTER_HEADERS, MODULE_ROSTER_ROWS)
+    add_caption(doc, "Table G.4 — Reference deployment module roster. v1 deployment ships modules 1 and 2; subsequent modules attach without architectural change.")
+    doc.add_paragraph()
+    add_paragraph(
+        doc,
+        "Per-module independence and shared infrastructure are made explicit in the body of "
+        "the paper (Section 6.1, Strategic Viewpoint, and Section 6.4, Resources / Services "
+        "Viewpoint). The reference deployment realizing this roster is documented in the "
+        "deployment-plan tracker (referenced in the repository inventory of Table G.2).",
     )
 
     doc.add_page_break()

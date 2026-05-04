@@ -10,8 +10,8 @@ In active drafting. v1 publication target: arXiv preprint + Zenodo DOI.
 
 - **Audience:** enterprise architecture practitioners; UAF / MBSE community; AI governance practitioners
 - **Form:** UAF-grade architecture description, MBSE discipline, philosophically grounded (reformed-epistemic / telic / deontic / temporal / mereological framing)
-- **Contribution:** the 4M+1 framework as a portable, harness-agnostic governance specification with cryptographic verifiability; one reference implementation
-- **Naming convention:** the body of the paper speaks abstractly (e.g., "the governance plane", "the security peer agent"); concrete reference-implementation names live in [Appendix G](paper-1-appendices-G-H-I.docx)
+- **Contribution:** the 4M+1 framework as a portable, harness-agnostic governance specification with cryptographic verifiability; one reference implementation positioned as the governance plane for a **modular federated digital enterprise** (each capability domain — Dev, Ops, Digital Engineering, ERP, Mod-Sim, … — attaches as an independently-governed module)
+- **Naming convention:** the body of the paper speaks abstractly (e.g., "the governance plane", "the security peer agent", "the canonical entry-point file"); concrete reference-implementation names live in [Appendix G](paper-1-appendices-G-H-I.docx) (G.1 term mapping, G.2 repository inventory, G.3 conformance criteria, G.4 module roster)
 
 ## Series progression
 

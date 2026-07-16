@@ -34,7 +34,7 @@ These components implement the Morals module's executable enforcement requiremen
 - Malformed tool calls are rejected with structured error, never forwarded to execution
 - 100% of tool executions are logged with canonical representation
 
-**4M mapping**: Means (execution interface) + Morals (validation gate)
+**MxM mapping**: Means (execution interface) + Morals (validation gate)
 
 ### 2. Permission Confirmation Channel
 
@@ -54,7 +54,7 @@ These components implement the Morals module's executable enforcement requiremen
 - Approval decisions are immutably logged
 - Policy rules are testable in isolation
 
-**4M mapping**: Morals (deontic enforcement)
+**MxM mapping**: Morals (deontic enforcement)
 
 ### 3. Self-Exemption Prevention
 
@@ -72,7 +72,7 @@ These components implement the Morals module's executable enforcement requiremen
 - Attempted access is logged and denied
 - Configuration changes require out-of-band human action
 
-**4M mapping**: Morals (self-exemption prevention, defense in depth)
+**MxM mapping**: Morals (self-exemption prevention, defense in depth)
 
 ---
 
@@ -86,7 +86,7 @@ These components enable reliable multi-model operation and output quality assura
 
 **Deliverables**:
 - Tokeniser registry: tiktoken (GPT), sentencepiece (Gemini), Anthropic tokeniser, model-specific for open-weight
-- Three-zone budget allocator (pinned / summary / verbatim) per 4M Memory spec
+- Three-zone budget allocator (pinned / summary / verbatim) per MxM Memory spec
 - Pre-compaction trigger at configurable threshold (default: 80% of context limit)
 - Observation masking for older tool results
 - Running summary generator for evicted turns
@@ -98,7 +98,7 @@ These components enable reliable multi-model operation and output quality assura
 - Compaction is transparent to the user
 - Token counts are accurate to within 5% of model's actual tokenization
 
-**4M mapping**: Memory (session continuity) + Mind (reasoning quality)
+**MxM mapping**: Memory (session continuity) + Mind (reasoning quality)
 
 ### 5. Structured Tool Output Parsing
 
@@ -117,7 +117,7 @@ These components enable reliable multi-model operation and output quality assura
 - Invalid JSON in tool arguments is caught before execution
 - Parser errors produce actionable diagnostics
 
-**4M mapping**: Means (tool interface) + Mind (tool-use planning)
+**MxM mapping**: Means (tool interface) + Mind (tool-use planning)
 
 ### 6. Disposition Output Validation
 
@@ -135,7 +135,7 @@ These components enable reliable multi-model operation and output quality assura
 - Validation rules are declarative and testable
 - Retry prompts include the specific failure reason
 
-**4M mapping**: Morals (output validation) + Mind (metacognition)
+**MxM mapping**: Morals (output validation) + Mind (metacognition)
 
 ---
 
@@ -160,7 +160,7 @@ These components harden the orchestrator for multi-tenant and production deploym
 - Resource exhaustion in agent does not affect orchestrator
 - Network egress to unapproved endpoints is blocked
 
-**4M mapping**: Morals (executable enforcement) + Means (execution boundary)
+**MxM mapping**: Morals (executable enforcement) + Means (execution boundary)
 
 ### 8. Model-Agnostic Streaming
 
@@ -178,7 +178,7 @@ These components harden the orchestrator for multi-tenant and production deploym
 - Switching models requires zero UI changes
 - Partial tool call JSON is never forwarded to the parser
 
-**4M mapping**: Means (execution interface)
+**MxM mapping**: Means (execution interface)
 
 ---
 
@@ -202,7 +202,7 @@ These components harden the orchestrator for multi-tenant and production deploym
 - Plugin prompt fragments respect the Mission composition rules (mereological coherence)
 - A crashing plugin is isolated and logged, not propagated
 
-**4M mapping**: Mission (sub-mission composition) + Mind (context injection)
+**MxM mapping**: Mission (sub-mission composition) + Mind (context injection)
 
 ---
 

@@ -1,7 +1,7 @@
 # Claude Code Model
 
 **Purpose:** Document Claude Code's public interfaces, observable capabilities, and behavioral
-patterns as a reference model for synthesis with NemoClaw and 4M governance.
+patterns as a reference model for synthesis with NemoClaw and MxM governance.
 
 **Legal basis:** This folder contains NO Anthropic source code. All content is derived from:
 - Published documentation (docs.anthropic.com)
@@ -19,7 +19,7 @@ Only specific code expression is protected. We describe *what it does*, not *how
 - `interfaces.md` — Public APIs, CLI flags, settings schema, hook contracts
 - `agent-model.md` — Agent spawning, lifecycle, tool dispatch, coordination patterns
 - `safety-model.md` — Permission modes, tool approval, safety boundaries
-- `gaps.md` — Capabilities absent from Claude Code that NemoClaw or 4M provide
+- `gaps.md` — Capabilities absent from Claude Code that NemoClaw or MxM provide
 
 ## Relationship to Sibling Folders
 
@@ -32,4 +32,4 @@ internal-projects/
 The synthesis target is a system that combines:
 1. NemoClaw's runtime isolation (Landlock, seccomp, network policy) — *code reuse OK, Apache 2.0*
 2. Claude Code's agent patterns (tool dispatch, coordination, hooks) — *behavioral reimplementation*
-3. 4M's governance layer (Mind, Morals, Mission, Memory) — *our own IP*
+3. MxM's governance layer (Mind, Morals, Mission, Memory) — *our own IP*

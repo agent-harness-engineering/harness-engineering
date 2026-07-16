@@ -57,12 +57,12 @@ across session boundaries.
 
 ---
 
-## From 4M Governance
+## From MxM Governance
 
 ### 8. Semantic Safety Gates
 **Gap:** LangSmith evaluators run after the fact (post-hoc scoring). No pre-execution
 gates that can block an action before it happens based on semantic analysis.
-**4M provides:** PreToolUse hooks with content inspection, branch awareness,
+**MxM provides:** PreToolUse hooks with content inspection, branch awareness,
 context-dependent block/allow decisions.
 **Synthesis value:** HIGH — evaluation and enforcement are complementary but distinct.
 Post-hoc scoring cannot prevent damage; pre-execution gates can.
@@ -70,7 +70,7 @@ Post-hoc scoring cannot prevent damage; pre-execution gates can.
 ### 9. Deontic Governance Framework
 **Gap:** LangSmith has no concept of prohibitions, obligations, or permissions as
 structured governance. Evaluators score quality, not compliance with ethical rules.
-**4M provides:** Explicit prohibitions (P1-P10), obligations (O1-O9), conflict
+**MxM provides:** Explicit prohibitions (P1-P10), obligations (O1-O9), conflict
 resolution hierarchy, documented rationale for each rule.
 **Synthesis value:** HIGH — quality metrics and governance are orthogonal concerns.
 
@@ -78,14 +78,14 @@ resolution hierarchy, documented rationale for each rule.
 **Gap:** LangSmith stores traces and feedback, but these are mutable (runs can be
 deleted, projects can be removed). No guarantee of append-only immutability.
 The platform also does not capture *why* a decision was made, only *what* happened.
-**4M provides:** enforcement.log is append-only with decision rationale.
+**MxM provides:** enforcement.log is append-only with decision rationale.
 **Synthesis value:** MEDIUM — audit immutability is a compliance requirement that
 LangSmith's platform does not structurally guarantee.
 
 ### 11. Cross-Agent Context
 **Gap:** LangSmith traces are independent. No mechanism for one trace to reference
 or build on another trace's context. No shared state between traced executions.
-**4M provides:** Meta-context files for cross-agent state persistence.
+**MxM provides:** Meta-context files for cross-agent state persistence.
 **Synthesis value:** LOW — tracing is per-execution; coordination is a control plane concern.
 
 ---
@@ -114,16 +114,16 @@ with any provider.
 | Priority | Gap | Source | Why |
 |----------|-----|--------|-----|
 | P0 | Runtime sandboxing | NemoClaw | Observation without enforcement is insufficient |
-| P0 | Semantic safety gates | 4M | Post-hoc scoring cannot prevent harm |
+| P0 | Semantic safety gates | MxM | Post-hoc scoring cannot prevent harm |
 | P0 | Agent management | Claude Code | Tracing needs something to trace |
 | P1 | Network egress control | NemoClaw | Security enforcement complements tracing |
 | P1 | Tool system | Claude Code | LangSmith instruments, doesn't provide tools |
 | P1 | Permission modes | Claude Code | Approval workflow between observe and execute |
-| P1 | Deontic governance | 4M | Quality metrics and governance are orthogonal |
+| P1 | Deontic governance | MxM | Quality metrics and governance are orthogonal |
 | P2 | Resource limits | NemoClaw | Cost tracking needs cost enforcement |
 | P2 | Agent loop | OpenCode | Orchestration layer for traced operations |
-| P2 | Append-only audit | 4M | Compliance requirement beyond platform traces |
-| P3 | Cross-agent context | 4M | Coordination beyond trace boundaries |
+| P2 | Append-only audit | MxM | Compliance requirement beyond platform traces |
+| P3 | Cross-agent context | MxM | Coordination beyond trace boundaries |
 | P3 | Provider abstraction | OpenCode | Already compatible, not blocking |
 | P3 | Session continuity | Claude Code | Tracing doesn't need it |
 
@@ -131,7 +131,7 @@ with any provider.
 
 LangSmith is a **pure observability and evaluation** platform. It excels at answering
 "what happened?" and "how well did it work?" but provides no answers to:
-- "Should this action be allowed?" (4M / Claude Code)
+- "Should this action be allowed?" (MxM / Claude Code)
 - "Can this action physically succeed?" (NemoClaw)
 - "How should the agent be managed?" (Claude Code / OpenCode)
 

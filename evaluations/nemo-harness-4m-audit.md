@@ -1,17 +1,17 @@
-# 4M Conformance Audit: nemo-harness
+# MxM Conformance Audit: nemo-harness
 
 **Date:** 2026-04-26
 **Evaluator:** Claude Opus 4.5 (automated audit agent)
-**Spec version:** 4M Reference Architecture, April 2026
+**Spec version:** MxM Reference Architecture, April 2026
 **Codebase:** nemo-harness at HEAD (2026-04-26)
 
 ---
 
 ## Executive Summary
 
-**Overall conformance: Strong partial.** nemo-harness is the origin implementation from which the 4M spec was generalized. The four modules are all present and identifiable. Three of the four cross-cutting channels have concrete implementation. The architecture genuinely separates concerns along the lines the spec describes. It is fair to say nemo-harness implements the 4M model.
+**Overall conformance: Strong partial.** nemo-harness is the origin implementation from which the MxM spec was generalized. The four modules are all present and identifiable. Three of the four cross-cutting channels have concrete implementation. The architecture genuinely separates concerns along the lines the spec describes. It is fair to say nemo-harness implements the MxM model.
 
-That said, the implementation predates the published spec and was not refactored to match it after generalization. The result is a codebase where 4M structure is real but implicit: you can find each module if you know where to look, but the code does not name its own modules or enforce their boundaries through types, interfaces, or package structure. The spec's formalism (jurisdictional questions, philosophical grounding, channel contracts) exists in the documentation, not in the runtime.
+That said, the implementation predates the published spec and was not refactored to match it after generalization. The result is a codebase where MxM structure is real but implicit: you can find each module if you know where to look, but the code does not name its own modules or enforce their boundaries through types, interfaces, or package structure. The spec's formalism (jurisdictional questions, philosophical grounding, channel contracts) exists in the documentation, not in the runtime.
 
 **Conformance score:** 5 of 7 checklist items pass. 1 partial. 1 fail.
 
@@ -103,7 +103,7 @@ Observation masking replaces old tool results with `[Previous tool results trunc
 **Governing question:** N/A (Means is the execution substrate, not a cognitive module)
 **Verdict:** PARTIAL
 
-The spec defines Means as a separate layer with an interface contract: the 4M cognitive architecture directs Means; Means does not direct cognition.
+The spec defines Means as a separate layer with an interface contract: the MxM cognitive architecture directs Means; Means does not direct cognition.
 
 In nemo-harness, Means is partially separated:
 - **Tool handlers** live in dedicated modules (`tools/file_tools.py`, `tools/shell_tools.py`, `tools/web_tools.py`, etc.). These are Means: they execute actions in the world.
@@ -210,14 +210,14 @@ From the spec's Appendix (Section 9) and PROGRAMME.md hard core commitments:
 
 ---
 
-## Conclusion: Is "nemo-harness implements 4M" defensible?
+## Conclusion: Is "nemo-harness implements MxM" defensible?
 
 **Yes, with qualification.**
 
-nemo-harness is the origin implementation. The 4M spec was generalized from its architecture, and the architecture is genuinely present: Mission drives what the system does; Mind shapes how it reasons; Morals enforces what it must not do; Memory provides continuity across turns. These are not post-hoc labels applied to an undifferentiated codebase. The module boundaries are real, and the code was designed with separation of concerns in mind.
+nemo-harness is the origin implementation. The MxM spec was generalized from its architecture, and the architecture is genuinely present: Mission drives what the system does; Mind shapes how it reasons; Morals enforces what it must not do; Memory provides continuity across turns. These are not post-hoc labels applied to an undifferentiated codebase. The module boundaries are real, and the code was designed with separation of concerns in mind.
 
-The qualification: nemo-harness implements the substance of 4M without implementing its formalism. The modules are present but not structurally bounded. The channels work but are not contractual. The philosophical grounding (telos, epistemics, deontics, temporality) informs the design but is not encoded in the runtime. Mind lacks the formal apparatus the spec describes (inference modes, Bayesian integration). Means is not cleanly separable.
+The qualification: nemo-harness implements the substance of MxM without implementing its formalism. The modules are present but not structurally bounded. The channels work but are not contractual. The philosophical grounding (telos, epistemics, deontics, temporality) informs the design but is not encoded in the runtime. Mind lacks the formal apparatus the spec describes (inference modes, Bayesian integration). Means is not cleanly separable.
 
-The honest statement is: **nemo-harness is a strong partial implementation of 4M.** It demonstrates that the architecture works in practice. It does not demonstrate the full formalism the spec prescribes. The gaps are primarily structural (module boundaries, channel contracts, Means abstraction) rather than functional (the behaviors the spec requires are present). This is the expected state of an origin implementation that preceded its own generalization.
+The honest statement is: **nemo-harness is a strong partial implementation of MxM.** It demonstrates that the architecture works in practice. It does not demonstrate the full formalism the spec prescribes. The gaps are primarily structural (module boundaries, channel contracts, Means abstraction) rather than functional (the behaviors the spec requires are present). This is the expected state of an origin implementation that preceded its own generalization.
 
 For the Lakatosian programme: nemo-harness confirms that the hard core commitments (HC-1 through HC-3) are implementable. The gaps are protective belt material: they concern specific implementation patterns (channel formalisation, Means contracts) that can be adjusted without threatening the core taxonomy. The programme is progressive if these gaps are addressed; it would be degenerating if they were papered over with post-hoc relabeling.

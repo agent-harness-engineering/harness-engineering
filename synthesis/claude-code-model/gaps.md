@@ -1,6 +1,6 @@
 # Capability Gaps — What Claude Code Lacks
 
-Capabilities present in NemoClaw or 4M but absent from Claude Code,
+Capabilities present in NemoClaw or MxM but absent from Claude Code,
 representing the synthesis opportunity.
 
 ## From NemoClaw
@@ -42,17 +42,17 @@ NIM local, vLLM, Ollama — runtime switchable.
 OCI registry. `nemoclaw deploy` for reproducible setup.
 **Synthesis value:** MEDIUM — important for team/enterprise deployment.
 
-## From 4M
+## From MxM
 
 ### 7. Deontic Governance Framework
 **Gap:** Claude Code has no structured governance beyond permissions and model safety.
-**4M provides:** Prohibitions (P1-P10), Obligations (O1-O9), Permissions, Process Gates —
+**MxM provides:** Prohibitions (P1-P10), Obligations (O1-O9), Permissions, Process Gates —
 each with documented *reasons* and conflict resolution hierarchy.
 **Synthesis value:** HIGH — governance with rationale, not just rules.
 
 ### 8. Reasoning Constraints (Mind Module)
 **Gap:** Claude Code places no constraints on *how* the agent reasons.
-**4M provides:** Confidence signaling, source protocols, circularity detection,
+**MxM provides:** Confidence signaling, source protocols, circularity detection,
 methodology requirements (1 Thess 5:21 pattern).
 **Synthesis value:** MEDIUM — reduces hallucination and reasoning errors.
 
@@ -60,19 +60,19 @@ methodology requirements (1 Thess 5:21 pattern).
 **Gap:** Claude Code permissions are pattern-based (`Bash(git push*)`).
 They don't understand *context* — the same command might be safe or dangerous
 depending on which branch, what's being pushed, or who's running it.
-**4M provides:** Context-aware gates that inspect content, branch, and session
+**MxM provides:** Context-aware gates that inspect content, branch, and session
 state to make informed block/allow decisions.
 **Synthesis value:** HIGH — catches violations pattern matching cannot.
 
 ### 10. Append-Only Audit
 **Gap:** Claude Code tool approvals are ephemeral — no persistent record.
-**4M provides:** `enforcement.log` with every gate decision, timestamped,
+**MxM provides:** `enforcement.log` with every gate decision, timestamped,
 with the triggering command and the decision rationale.
 **Synthesis value:** HIGH — essential for compliance and incident review.
 
 ### 11. Cross-Agent Context (Meta-Context)
 **Gap:** Claude Code agents have no shared state or awareness of each other.
-**4M provides:** Meta-context files that persist cross-agent state, enabling
+**MxM provides:** Meta-context files that persist cross-agent state, enabling
 agents to coordinate without direct communication.
 **Synthesis value:** MEDIUM — enables multi-agent workflows without message bus.
 
@@ -81,13 +81,13 @@ agents to coordinate without direct communication.
 | Priority | Gap | Source | Why |
 |----------|-----|--------|-----|
 | P0 | Runtime sandboxing | NemoClaw | Safety-critical |
-| P0 | Semantic tool gates | 4M | Already implemented, must preserve |
-| P0 | Append-only audit | 4M | Compliance requirement |
+| P0 | Semantic tool gates | MxM | Already implemented, must preserve |
+| P0 | Append-only audit | MxM | Compliance requirement |
 | P1 | Network egress control | NemoClaw | Data exfiltration prevention |
-| P1 | Deontic governance | 4M | Framework coherence |
+| P1 | Deontic governance | MxM | Framework coherence |
 | P1 | Model-agnostic routing | NemoClaw | Air-gap requirement |
 | P2 | Operator TUI | NemoClaw | UX improvement |
 | P2 | Policy-as-code | NemoClaw | Team deployment |
-| P2 | Reasoning constraints | 4M | Quality improvement |
+| P2 | Reasoning constraints | MxM | Quality improvement |
 | P3 | Blueprint distribution | NemoClaw | Enterprise deployment |
-| P3 | Cross-agent context | 4M | Advanced workflows |
+| P3 | Cross-agent context | MxM | Advanced workflows |

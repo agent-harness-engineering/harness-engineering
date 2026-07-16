@@ -16,7 +16,7 @@
 |                                    |                              |
 |  +-----------------------------+   |   +------------------------+ |
 |  |      Governance Engine      |<--+-->|   Sandbox Manager      | |
-|  |      (4M gates)             |       |   (NemoClaw policies)  | |
+|  |      (MxM gates)             |       |   (NemoClaw policies)  | |
 |  |                             |       |                        | |
 |  |  - PreToolUse semantic gate |       |  - Container lifecycle | |
 |  |  - Spawn approval gate     |       |  - Landlock policies   | |
@@ -60,7 +60,7 @@ Agent Loop Engine
   - Receives tool call from provider response
   |
   v
-Governance Engine (4M)
+Governance Engine (MxM)
   - Semantic gate inspects: tool name, arguments, content, branch, session state
   - Checks applicable prohibitions for this agent type
   - Decision: ALLOW / BLOCK (with rationale)
@@ -148,7 +148,7 @@ On completion:
 Agent A writes to meta-context
   |
   v
-Meta-Context Store (4M memory module)
+Meta-Context Store (MxM memory module)
   - File-based persistent state
   - Scoped: per-project, per-session, per-agent-type
   - Mounted read-only into other agent containers
@@ -165,12 +165,12 @@ Agent B reads meta-context at session start
 |-----------|-------------|---------|----------------------|
 | Agent Registry | Original | Ologos | YAML declarations |
 | Type Resolver | Original | Ologos | Maps types to multi-layer configs |
-| Governance Engine | 4M gates | Ologos | Go interfaces wrapping tool dispatch |
+| Governance Engine | MxM gates | Ologos | Go interfaces wrapping tool dispatch |
 | Sandbox Manager | NemoClaw | Apache 2.0 | Container lifecycle + policy application |
 | Agent Loop Engine | OpenCode patterns | MIT | Go agent loop with multi-provider |
 | Trace Collector | LangSmith SDK patterns | MIT | PubSub subscriber emitting spans |
 | UX Layer | Claude Code patterns | Public interfaces | Permission modes + project config |
-| Meta-Context Store | 4M memory module | Ologos | File-based cross-agent state |
+| Meta-Context Store | MxM memory module | Ologos | File-based cross-agent state |
 
 ## Implementation Language
 

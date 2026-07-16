@@ -2,7 +2,7 @@
 
 How each reference model maps to omaestro components.
 
-## 4M -> Governance Engine
+## MxM -> Governance Engine
 
 ### What We Take
 - **Morals module:** Prohibitions P1-P10, Obligations O1-O9, conflict resolution hierarchy
@@ -11,7 +11,7 @@ How each reference model maps to omaestro components.
 - **Mission module:** Agent disposition framework, task scoping
 
 ### How It Integrates
-4M gates become **Go interfaces** wrapping the tool dispatch pipeline:
+MxM gates become **Go interfaces** wrapping the tool dispatch pipeline:
 
 ```go
 type Gate interface {
@@ -25,7 +25,7 @@ type Gate interface {
 Each agent type declares which gates apply. The Governance Engine runs all
 applicable gates before tool execution. Any BLOCK stops execution.
 
-**Key difference from current 4M:** Current implementation uses shell-script
+**Key difference from current MxM:** Current implementation uses shell-script
 PreToolUse hooks (fail-open — if hook crashes, tool executes). omaestro uses
 compiled Go interfaces (fail-closed — if gate panics, tool does not execute).
 
@@ -134,7 +134,7 @@ The Agent Loop Engine is the core execution component. It:
 5. Publishes events to PubSub (consumed by Trace Collector)
 6. Manages context window via auto-compact
 
-**Key enhancement over OpenCode:** Tool calls pass through 4M gates and NemoClaw
+**Key enhancement over OpenCode:** Tool calls pass through MxM gates and NemoClaw
 sandbox before execution. OpenCode's pipeline is: permission -> execute. omaestro's
 pipeline is: governance -> permission -> sandbox(execute) -> trace.
 

@@ -1,6 +1,6 @@
 # Synthesis Landscape
 
-A capability survey of four external reference systems, analyzed for synthesis with the 4M governance framework into a unified agent harness architecture.
+A capability survey of four external reference systems, analyzed for synthesis with the MxM governance framework into a unified agent harness architecture.
 
 ## Legal Basis
 
@@ -10,11 +10,11 @@ A capability survey of four external reference systems, analyzed for synthesis w
 | **Claude Code** | Proprietary | Public interfaces, behavioral description only (no source code) |
 | **OpenCode** | MIT | Full source (unrestricted use, modification, redistribution) |
 | **LangSmith** | MIT (SDK) | SDK patterns, public documentation, observable behavior |
-| **4M** | Ours | Full ownership |
+| **MxM** | Ours | Full ownership |
 
 ## Five-Model Capability Matrix
 
-| Capability | 4M | NemoClaw | Claude Code | OpenCode | LangSmith |
+| Capability | MxM | NemoClaw | Claude Code | OpenCode | LangSmith |
 |-----------|-----|----------|-------------|----------|-----------|
 | **Governance / Ethics** | Deontic framework (P/O/Permission/Gate) | - | - | - | - |
 | **Reasoning Constraints** | Mind module, source protocol, circularity | - | - | - | - |
@@ -37,14 +37,14 @@ The synthesis target: **one agent-type declaration produces three enforcement la
 
 ```
 agent-type: "researcher"
-  -> 4M governance: Mind constraints + permitted tools + source protocol
+  -> MxM governance: Mind constraints + permitted tools + source protocol
   -> NemoClaw sandbox: filesystem policy + network whitelist + seccomp profile
   -> LangSmith trace: parent span + cost budget + eval dataset
 ```
 
 Each model contributes a distinct, non-overlapping layer:
 
-1. **4M** (ours) -- *Why* the agent should/shouldn't act (governance, reasoning, ethics)
+1. **MxM** (ours) -- *Why* the agent should/shouldn't act (governance, reasoning, ethics)
 2. **NemoClaw** (Apache 2.0) -- *What* the agent physically can't do (OS-level isolation)
 3. **Claude Code model** (public interfaces) -- *How* a mature agent system behaves (patterns for reimplementation)
 4. **OpenCode** (MIT) -- *Inspectable reference implementation* of the agent loop (legitimate source to study)

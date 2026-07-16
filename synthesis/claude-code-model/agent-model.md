@@ -39,7 +39,7 @@ Agent decides to use tool
 ```
 
 Key property: hooks are the **only** extensibility point in this pipeline.
-4M governance operates entirely through this hook interface.
+MxM governance operates entirely through this hook interface.
 
 ## Agent Isolation (Current)
 
@@ -73,17 +73,17 @@ In a synthesized system, the spawn pipeline becomes:
 
 ```
 Agent decides to spawn child
-  → 4M governance gate: is this spawn allowed?
+  → MxM governance gate: is this spawn allowed?
     → Agent type → tool allowlist (Claude Code pattern)
     → Agent type → sandbox policy preset (NemoClaw mapping)
       → NemoClaw creates container with policy
         → Child runs inside container
-          → Tool calls go through hooks (4M) AND sandbox (NemoClaw)
+          → Tool calls go through hooks (MxM) AND sandbox (NemoClaw)
             → On completion: container destroyed, result returned to parent
 ```
 
 Each agent gets:
-1. **Semantic constraints** — what it *should* do (4M governance)
+1. **Semantic constraints** — what it *should* do (MxM governance)
 2. **Structural constraints** — what it *can* do (NemoClaw sandbox)
 3. **Tool constraints** — what tools it has access to (agent type allowlist)
 

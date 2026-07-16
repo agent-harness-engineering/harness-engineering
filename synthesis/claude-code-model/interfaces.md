@@ -104,7 +104,7 @@ Project instructions loaded at session start. Searched in:
 3. `~/.claude/` (global)
 
 Content is injected into the system prompt. This is the primary mechanism for
-project-level governance — 4M's entire framework operates through this interface.
+project-level governance — MxM's entire framework operates through this interface.
 
 ## Agent Spawn Interface (Behavioral)
 

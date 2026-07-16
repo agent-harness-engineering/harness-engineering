@@ -19,7 +19,7 @@ call tools, and produce results — same as OpenCode but in our codebase.
 
 ## Phase 1: Governance Layer
 
-**Goal:** 4M gates integrated into tool dispatch pipeline.
+**Goal:** MxM gates integrated into tool dispatch pipeline.
 
 **Deliverables:**
 - Gate interface (Go) with fail-closed semantics

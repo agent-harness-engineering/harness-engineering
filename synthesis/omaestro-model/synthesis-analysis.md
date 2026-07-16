@@ -1,7 +1,7 @@
 # omaestro Synthesis Analysis
 
 Cross-cutting analysis of four reference models (Claude Code, OpenCode, NemoClaw, LangSmith)
-and one original framework (4M) that justifies every architectural decision in omaestro.
+and one original framework (MxM) that justifies every architectural decision in omaestro.
 
 This document is the **analytical foundation** underneath the architecture docs. Those docs
 describe what omaestro is. This doc argues *why*, with evidence from the landscape.
@@ -15,7 +15,7 @@ Convergent evolution = validated pattern, low-risk design choice.
 
 ### 1.1 Tool Dispatch as Universal Interception Point
 
-**Models:** Claude Code, OpenCode, NemoClaw, 4M
+**Models:** Claude Code, OpenCode, NemoClaw, MxM
 
 All four models that involve agent execution treat tool dispatch as the primary
 control surface. The agent decides to call a tool; governance happens in the gap
@@ -26,7 +26,7 @@ between decision and execution.
 | Claude Code | PreToolUse/PostToolUse hooks | Before/after every tool call |
 | OpenCode | Permission service check | Before every modifying tool call |
 | NemoClaw | Sandbox policy enforcement | At syscall level during execution |
-| 4M | Semantic gate scripts | Before tool execution via hooks |
+| MxM | Semantic gate scripts | Before tool execution via hooks |
 
 **omaestro conclusion:** Tool dispatch is the universal governance surface. Every
 safety, governance, and observability concern attaches here. The pipeline is:
@@ -93,7 +93,7 @@ Both acknowledge this limitation.
 
 **omaestro conclusion:** Permission is a necessary but insufficient layer. It catches
 what the user doesn't want, but it doesn't understand *why* something is dangerous.
-That's the Governance Engine's job (4M semantic gates). Permission Service and
+That's the Governance Engine's job (MxM semantic gates). Permission Service and
 Governance Engine are complementary, not redundant.
 
 **Confidence: HIGH** — both platforms' permission models are content-blind.
@@ -102,22 +102,22 @@ Governance Engine are complementary, not redundant.
 
 ### 1.5 Append-Only Audit as Distinct Concern
 
-**Models:** 4M (enforcement.log), LangSmith (trace store)
+**Models:** MxM (enforcement.log), LangSmith (trace store)
 
 Both independently implement append-only records of decisions, though at different
-granularity levels. 4M logs gate decisions with rationale. LangSmith logs execution
+granularity levels. MxM logs gate decisions with rationale. LangSmith logs execution
 spans with metrics.
 
 | Model | What's Logged | Format | Queryable? |
 |-------|-------------|--------|-----------|
-| 4M | Gate decisions + rationale | Flat file, append-only | grep only |
+| MxM | Gate decisions + rationale | Flat file, append-only | grep only |
 | LangSmith | Execution spans + metrics + feedback | Structured store | Full query + filter |
 
 **Contrast:** Claude Code and OpenCode have *no* persistent audit trail. Tool
 approvals are ephemeral (session-only).
 
 **omaestro conclusion:** Audit is not a nice-to-have; it's the foundation for
-compliance, incident review, and governance improvement. Combine 4M's decision
+compliance, incident review, and governance improvement. Combine MxM's decision
 rationale with LangSmith's structured tracing to get both *what happened* and *why
 it was allowed*.
 
@@ -159,12 +159,12 @@ Each divergence is a **design decision** omaestro must make, with evidence for e
 | **Fail mode** | **Fail-open** — hook crash = tool executes | **Fail-closed possible** — panic = tool blocked |
 | **Type safety** | None — string matching, exit codes | Full — compiled interfaces, typed events |
 | **Extensibility** | Any language, any script | Go only |
-| **4M integration** | Shell scripts (current implementation) | Go wrapper functions |
+| **MxM integration** | Shell scripts (current implementation) | Go wrapper functions |
 
 **omaestro decision: Go interfaces (fail-closed).**
 
 **Justification:**
-- The 4M safety analysis identifies fail-open as a critical weakness. A crashing
+- The MxM safety analysis identifies fail-open as a critical weakness. A crashing
   hook silently allowing a dangerous operation is worse than a crashing gate
   blocking a safe operation.
 - OpenCode's Go interfaces enable compiled, type-safe gate checks. The gate contract
@@ -304,7 +304,7 @@ alternative (sandbox-only) loses the cheap early-catch that reduces sandbox nois
 Unified view of which capabilities each model provides and which it lacks.
 Read column-wise to see what a model needs; read row-wise to see who provides it.
 
-| Capability | Claude Code | OpenCode | NemoClaw | LangSmith | 4M |
+| Capability | Claude Code | OpenCode | NemoClaw | LangSmith | MxM |
 |-----------|:-----------:|:--------:|:--------:|:---------:|:---:|
 | **Agent loop** | Has | Has | Has | — | — |
 | **Tool dispatch** | Has | Has | — | — | Gates |
@@ -339,7 +339,7 @@ Each model fills gaps in the others. The synthesis value is in the *combination*
 | Gap Filler | Fills Gaps In | Key Gaps Filled |
 |-----------|--------------|-----------------|
 | **NemoClaw** | Claude Code, OpenCode | Filesystem sandbox, network sandbox, resource limits |
-| **4M** | Claude Code, OpenCode, LangSmith | Semantic gates, content-aware blocking, audit, governance |
+| **MxM** | Claude Code, OpenCode, LangSmith | Semantic gates, content-aware blocking, audit, governance |
 | **OpenCode** | Claude Code, LangSmith | Multi-provider, session persistence, PubSub, LSP, cost tracking |
 | **Claude Code** | OpenCode, LangSmith | Permission modes, hook extensibility, background agents, multi-phase |
 | **LangSmith** | All others | Tracing, eval pipelines, human feedback, cost attribution |
@@ -371,7 +371,7 @@ what alternatives were considered, and why this choice was made.
 
 | Factor | Evidence |
 |--------|---------|
-| **Primary influence** | 4M safety analysis — fail-open hooks identified as critical weakness |
+| **Primary influence** | MxM safety analysis — fail-open hooks identified as critical weakness |
 | **Supporting evidence** | OpenCode's Go interfaces demonstrate fail-closed is implementable |
 | **Negative evidence** | Claude Code's shell hooks crash = tool executes (documented behavior) |
 | **Alternative considered** | Shell hooks with watchdog (restart crashed hooks) |
@@ -408,10 +408,10 @@ what alternatives were considered, and why this choice was made.
 | Factor | Evidence |
 |--------|---------|
 | **Primary influence** | OpenCode's SQLite session persistence |
-| **Supporting evidence** | 4M audit needs persistent storage; LangSmith traces need queryable storage |
+| **Supporting evidence** | MxM audit needs persistent storage; LangSmith traces need queryable storage |
 | **Contrast** | Claude Code sessions are ephemeral |
 | **Why SQLite** | Single-file database, no server, SQL queries for analysis, ACID guarantees |
-| **Why not flat files** | 4M's enforcement.log is grep-only; structured queries are essential for analysis |
+| **Why not flat files** | MxM's enforcement.log is grep-only; structured queries are essential for analysis |
 
 ---
 
@@ -420,11 +420,11 @@ what alternatives were considered, and why this choice was made.
 | Factor | Evidence |
 |--------|---------|
 | **Layer 1 (Model Safety)** | All models assume this exists; none controls it |
-| **Layer 2 (Semantic Gates)** | 4M — original, no other model has it |
+| **Layer 2 (Semantic Gates)** | MxM — original, no other model has it |
 | **Layer 3 (Permission Service)** | Claude Code + OpenCode convergence (section 1.4) |
 | **Layer 4 (Command Filtering)** | OpenCode — cheap early-catch, explicitly acknowledged as bypassable |
 | **Layer 5 (OS Sandbox)** | NemoClaw — structural enforcement, validated by convergence (section 1.3) |
-| **Layer 6 (Audit Trail)** | 4M + LangSmith convergence (section 1.5) |
+| **Layer 6 (Audit Trail)** | MxM + LangSmith convergence (section 1.5) |
 | **Why six, not fewer** | Each layer catches threats the others miss (see defense-in-depth.md threat matrix) |
 | **Why not more** | Every additional layer adds latency; six covers the threat model without excess |
 
@@ -467,14 +467,14 @@ This is the core architectural innovation.
 
 ### 5.2 Compiled Governance Gates with Fail-Closed Semantics (NOVEL)
 
-4M has semantic gates (shell-script hooks, fail-open).
+MxM has semantic gates (shell-script hooks, fail-open).
 OpenCode has Go tool interfaces (compiled, but no governance logic).
 
-omaestro combines 4M's *semantic analysis* with OpenCode's *compiled interface pattern*
+omaestro combines MxM's *semantic analysis* with OpenCode's *compiled interface pattern*
 to produce governance gates that are both context-aware AND fail-closed. No source
 model has this combination.
 
-**IP classification: Original synthesis — 4M semantics + OpenCode implementation pattern.**
+**IP classification: Original synthesis — MxM semantics + OpenCode implementation pattern.**
 
 ---
 
@@ -493,21 +493,21 @@ cost attribution with NemoClaw's enforcement model.
 
 ### 5.4 Governance-Aware Observability (NOVEL)
 
-LangSmith traces execution but has no concept of governance. 4M audits governance
+LangSmith traces execution but has no concept of governance. MxM audits governance
 but has no structured tracing. No model combines them.
 
 omaestro annotates every trace span with governance metadata: which gates fired,
 what they decided, why. This makes governance decisions first-class objects in
 the observability pipeline, queryable and evaluable.
 
-**IP classification: Original synthesis — LangSmith tracing + 4M audit.**
+**IP classification: Original synthesis — LangSmith tracing + MxM audit.**
 
 ---
 
 ### 5.5 Evaluation-Driven Governance Improvement (NOVEL)
 
 LangSmith has evaluation pipelines (dataset-driven, custom evaluators, regression testing).
-4M has governance rules (static, manually maintained).
+MxM has governance rules (static, manually maintained).
 
 omaestro applies LangSmith's evaluation patterns *to governance rules themselves*:
 gate decisions become evaluable targets, known-good/known-bad tool calls become
@@ -515,21 +515,21 @@ test datasets, governance changes are regression-tested before deployment.
 
 No source model evaluates its own governance.
 
-**IP classification: Original synthesis — LangSmith eval pattern + 4M governance.**
+**IP classification: Original synthesis — LangSmith eval pattern + MxM governance.**
 
 ---
 
 ### 5.6 Cross-Agent Context via Sandbox-Isolated Mounts (NOVEL)
 
-4M has meta-context files for cross-agent state. NemoClaw has per-container
+MxM has meta-context files for cross-agent state. NemoClaw has per-container
 filesystem isolation. No model combines them.
 
 omaestro mounts meta-context files as read-only volumes in agent containers.
 Agent A writes context; Agent B's sandbox mounts it read-only. The sandbox
-ensures Agent B cannot modify Agent A's context, while 4M's meta-context
+ensures Agent B cannot modify Agent A's context, while MxM's meta-context
 protocol ensures the content is semantically meaningful.
 
-**IP classification: Original synthesis — 4M meta-context + NemoClaw isolation.**
+**IP classification: Original synthesis — MxM meta-context + NemoClaw isolation.**
 
 ---
 
@@ -589,28 +589,28 @@ Does omaestro address every P0 gap identified in each source model's gap analysi
 | Gap | Status | omaestro Component |
 |-----|--------|--------------------|
 | Runtime sandboxing | ADDRESSED | Sandbox Manager (NemoClaw) |
-| Semantic tool gates | ADDRESSED | Governance Engine (4M) |
-| Append-only audit | ADDRESSED | Audit Log (4M + LangSmith) |
+| Semantic tool gates | ADDRESSED | Governance Engine (MxM) |
+| Append-only audit | ADDRESSED | Audit Log (MxM + LangSmith) |
 
 ### OpenCode P0 Gaps
 | Gap | Status | omaestro Component |
 |-----|--------|--------------------|
 | Runtime sandboxing | ADDRESSED | Sandbox Manager (NemoClaw) |
-| Semantic tool gates | ADDRESSED | Governance Engine (4M) |
-| Append-only audit | ADDRESSED | Audit Log (4M + LangSmith) |
+| Semantic tool gates | ADDRESSED | Governance Engine (MxM) |
+| Append-only audit | ADDRESSED | Audit Log (MxM + LangSmith) |
 | Distributed tracing | ADDRESSED | Trace Collector (LangSmith) |
 
 ### LangSmith P0 Gaps
 | Gap | Status | omaestro Component |
 |-----|--------|--------------------|
 | Runtime sandboxing | ADDRESSED | Sandbox Manager (NemoClaw) |
-| Semantic safety gates | ADDRESSED | Governance Engine (4M) |
+| Semantic safety gates | ADDRESSED | Governance Engine (MxM) |
 | Agent management | ADDRESSED | Agent Loop Engine (OpenCode) |
 
 ### NemoClaw Gaps (implicit — no gap doc, assessed from architecture)
 | Gap | Status | omaestro Component |
 |-----|--------|--------------------|
-| Semantic governance | ADDRESSED | Governance Engine (4M) |
+| Semantic governance | ADDRESSED | Governance Engine (MxM) |
 | Structured tracing | ADDRESSED | Trace Collector (LangSmith) |
 | Multi-phase coordination | ADDRESSED | Agent Loop Engine + UX (Claude Code) |
 
@@ -626,7 +626,7 @@ Every omaestro component traces to a license-clear source.
 |-----------|--------|---------|----------|
 | Agent Registry | Original | Ologos | New code |
 | Type Resolver | Original | Ologos | New code |
-| Governance Engine | 4M framework | Ologos | Own IP |
+| Governance Engine | MxM framework | Ologos | Own IP |
 | Sandbox Manager | NemoClaw patterns | Apache 2.0 | Derivative (attributed in NOTICE) |
 | Agent Loop Engine | OpenCode patterns | MIT | Derivative (attributed in NOTICE) |
 | Trace Collector | LangSmith SDK patterns | MIT | Derivative (attributed in NOTICE) |

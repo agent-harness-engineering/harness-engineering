@@ -12,9 +12,9 @@ Layer 1: Model Safety
   Bypassable by: Jailbreak prompts, model weaknesses
   |
   v passes
-Layer 2: 4M Semantic Gates
+Layer 2: MxM Semantic Gates
   Content-aware pre-execution checks
-  Provenance: 4M (Ologos original)
+  Provenance: MxM (Ologos original)
   Bypassable by: Gate logic error, uncovered tool pattern
   |
   v passes
@@ -38,7 +38,7 @@ Layer 5: OS-Level Sandbox
   v passes
 Layer 6: Audit Trail
   Append-only log of all gate decisions + trace spans
-  Provenance: 4M audit log + LangSmith tracing patterns (MIT)
+  Provenance: MxM audit log + LangSmith tracing patterns (MIT)
   Bypassable by: N/A (detection layer, not prevention)
 ```
 
@@ -49,7 +49,7 @@ The first line of defense. The model itself refuses harmful requests. But models
 can be jailbroken, and different providers have different safety thresholds.
 **Cannot be the only layer.**
 
-### Layer 2 — 4M Semantic Gates
+### Layer 2 — MxM Semantic Gates
 Understands *context*, not just patterns. The same `git push` command is safe on
 a feature branch and dangerous on main. Pattern matching (Layer 3-4) cannot
 distinguish this; semantic gates can.
@@ -92,7 +92,7 @@ cannot read files outside its sandbox or reach endpoints not in its whitelist.
 
 ### Layer 6 — Audit Trail
 Every decision at every layer is recorded:
-- Gate decisions (allow/block) with rationale (4M enforcement.log)
+- Gate decisions (allow/block) with rationale (MxM enforcement.log)
 - Tool call traces with input/output/latency/cost (LangSmith patterns)
 - Sandbox violations (NemoClaw container logs)
 - Permission decisions (user approve/deny with context)

@@ -10,8 +10,8 @@
 
 ### Synthesis Opportunity
 Combine with NemoClaw: Tools execute *inside* a sandboxed container. Even if a Bash tool
-call is approved by 4M governance, it still can't escape the Landlock/seccomp boundary.
-**Defense in depth: semantic gate (4M) + structural gate (NemoClaw).**
+call is approved by MxM governance, it still can't escape the Landlock/seccomp boundary.
+**Defense in depth: semantic gate (MxM) + structural gate (NemoClaw).**
 
 ---
 
@@ -25,7 +25,7 @@ call is approved by 4M governance, it still can't escape the Landlock/seccomp bo
 - Hooks are shell commands defined in settings.json
 
 ### Synthesis Opportunity
-4M's current gates (pre-commit, CDAE, pre-publish) are implemented as PreToolUse hooks.
+MxM's current gates (pre-commit, CDAE, pre-publish) are implemented as PreToolUse hooks.
 In a synthesized system, NemoClaw's policy engine could *also* be a hook provider —
 translating sandbox policy violations into hook-level blocks before the tool even runs.
 This would give operators NemoClaw-style TUI approval for blocked operations.
@@ -104,7 +104,7 @@ reason about what it's allowed to do before attempting it, reducing blocked-acti
 - Memory persists across conversations but not across machines
 
 ### Synthesis Opportunity
-4M's Memory module already extends this with meta-context logging and cross-agent state.
+MxM's Memory module already extends this with meta-context logging and cross-agent state.
 In a synthesized system, NemoClaw's sandbox could enforce memory isolation:
 - Agent A's memory files are not readable by Agent B's sandbox
 - Shared memory requires explicit cross-sandbox mount (operator-approved)
@@ -133,16 +133,16 @@ The agent would know its own constraints, not just its instructions.
 
 ## Capability Matrix: What Each System Contributes
 
-| Capability | Claude Code | NemoClaw | 4M | Synthesis Role |
+| Capability | Claude Code | NemoClaw | MxM | Synthesis Role |
 |-----------|-------------|----------|-----|---------------|
-| Tool dispatch | Primary | — | Gates | Claude Code pattern, 4M gates |
+| Tool dispatch | Primary | — | Gates | Claude Code pattern, MxM gates |
 | OS isolation | — | Primary | — | NemoClaw provides |
 | Network policy | — | Primary | — | NemoClaw provides |
-| Semantic safety | — | — | Primary | 4M provides |
+| Semantic safety | — | — | Primary | MxM provides |
 | Agent coordination | Primary | — | — | Claude Code pattern |
 | Agent isolation | — | Primary | — | NemoClaw provides |
 | Permission UI | CLI prompt | Operator TUI | — | Unified surface |
-| Memory | File-based | — | Extended | 4M + sandbox isolation |
-| Audit | Ephemeral | Container logs | Append-only log | 4M audit + NemoClaw logs |
+| Memory | File-based | — | Extended | MxM + sandbox isolation |
+| Audit | Ephemeral | Container logs | Append-only log | MxM audit + NemoClaw logs |
 | Model flexibility | Claude only | Any model | Claude (current) | NemoClaw's routing |
 | Policy-as-code | settings.json | YAML policies | Shell gates | Unified policy format |

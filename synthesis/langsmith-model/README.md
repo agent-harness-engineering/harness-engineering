@@ -1,7 +1,7 @@
 # LangSmith Model
 
 **Purpose:** Document LangSmith's public interfaces, observability architecture, and evaluation
-patterns as a reference model for synthesis with 4M governance, NemoClaw sandboxing,
+patterns as a reference model for synthesis with MxM governance, NemoClaw sandboxing,
 Claude Code agent management, and OpenCode agent loop.
 
 **Legal basis:** This folder contains NO LangChain/LangSmith proprietary server code. All content is derived from:
@@ -42,7 +42,7 @@ LangSmith provides the instrumentation layer:
 4. **Prompt management** — Versioned prompts with A/B comparison and deployment tracking
 
 The synthesis target extracts these patterns for integration with:
-- **4M governance** — Audit logging gains structured trace format; gate decisions become spans
+- **MxM governance** — Audit logging gains structured trace format; gate decisions become spans
 - **NemoClaw** — Sandbox operations become traceable runs with cost/resource attribution
 - **Claude Code** — Agent tool calls become hierarchical traces with parent-child relationships
 - **OpenCode** — Agent loop iterations become observable evaluation cycles

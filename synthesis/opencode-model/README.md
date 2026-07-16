@@ -1,7 +1,7 @@
 # OpenCode Model
 
 **Purpose:** Document OpenCode's public interfaces, architecture, and behavioral
-patterns as a reference model for synthesis with 4M governance, NemoClaw sandboxing,
+patterns as a reference model for synthesis with MxM governance, NemoClaw sandboxing,
 Claude Code agent patterns, and LangSmith observability.
 
 **Legal basis:** OpenCode is MIT-licensed open-source software (opencode-ai/opencode).
@@ -42,7 +42,7 @@ The synthesis landscape now includes four reference systems:
 2. **Claude Code model** — Agent management patterns (tool dispatch, hooks, coordination) — *behavioral reimplementation*
 3. **OpenCode model** — Multi-provider agent loop, Go-native TUI, LSP integration — *MIT, source-derived*
 4. **LangSmith model** — Observability, tracing, evaluation — *reference patterns*
-5. **4M** — Governance layer (Mind, Morals, Mission, Memory) — *our own IP*
+5. **MxM** — Governance layer (Mind, Morals, Mission, Memory) — *our own IP*
 
 ## What OpenCode Uniquely Contributes
 

@@ -33,9 +33,9 @@ Root: Claude-Code-session (chain)
 ├── claude-md-load (prompt)              ← CLAUDE.md injection
 ├── 4m-gate-check (tool)                 ← Morals/Mind gate
 ├── tool-dispatch: Read (tool)           ← Tool call
-│   ├── pretooluse-hook (tool)           ← 4M PreToolUse
+│   ├── pretooluse-hook (tool)           ← MxM PreToolUse
 │   ├── execution (tool)                 ← Actual Read
-│   └── posttooluse-hook (tool)          ← 4M PostToolUse
+│   └── posttooluse-hook (tool)          ← MxM PostToolUse
 ├── agent-spawn: explore (chain)         ← Subagent becomes child trace
 │   ├── tool-dispatch: Grep (tool)
 │   └── tool-dispatch: Glob (tool)
@@ -131,7 +131,7 @@ Total trace latency: 15.2s
 ```
 
 ### Synthesis Value
-4M gates add latency to every tool call (hook scripts execute synchronously).
+MxM gates add latency to every tool call (hook scripts execute synchronously).
 Latency tracking per span category reveals:
 - How much overhead governance adds
 - Which gates are slow (optimization targets)
@@ -183,16 +183,16 @@ Metadata flows:
 ### Key Metadata Fields for Synthesis
 | Field | Source | Purpose |
 |-------|--------|---------|
-| `agent_id` | Claude Code / 4M | Trace ownership |
+| `agent_id` | Claude Code / MxM | Trace ownership |
 | `session_id` | Claude Code | Session grouping |
 | `permission_mode` | Claude Code | Security context |
 | `sandbox_policy` | NemoClaw | Isolation level |
-| `gate_decisions` | 4M | Governance trace |
-| `governance_version` | 4M (git SHA) | Governance document version |
+| `gate_decisions` | MxM | Governance trace |
+| `governance_version` | MxM (git SHA) | Governance document version |
 | `model_id` | Runtime | Model attribution |
 
 ### Synthesis Value
-4M's enforcement.log captures gate decisions but without structured propagation.
+MxM's enforcement.log captures gate decisions but without structured propagation.
 LangSmith's metadata model enables:
 - Correlating gate decisions with the agent and task that triggered them
 - Filtering traces by governance version (did a rule change cause regressions?)
@@ -218,7 +218,7 @@ LangSmith's metadata model enables:
                                      └─────────┘
 ```
 
-In synthesis, the trace store replaces (or enriches) 4M's enforcement.log:
+In synthesis, the trace store replaces (or enriches) MxM's enforcement.log:
 - Structured spans instead of flat log lines
 - Queryable dimensions instead of grep
 - Aggregatable metrics instead of manual counting

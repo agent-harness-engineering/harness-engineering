@@ -39,7 +39,7 @@ Dataset: "gate-test-cases"
   Example 2: {input: {tool: "Read", path: "README.md"}, expected: "allow"}
   Example 3: {input: {tool: "Bash", cmd: "git push --force"}, expected: "block"}
 
-Target: 4M gate script
+Target: MxM gate script
 Evaluators: [decision_correctness, latency_budget]
 ```
 
@@ -82,11 +82,11 @@ def llm_judge(run: Run, example: Example) -> dict:
 ### Synthesis Application: Governance Evaluators
 | Evaluator | Tests | Applies To |
 |-----------|-------|-----------|
-| Gate correctness | Did gate block/allow correctly? | 4M gates |
-| False positive rate | How often does gate block legitimate actions? | 4M gates |
-| Latency budget | Does gate execute within time budget? | 4M hooks |
+| Gate correctness | Did gate block/allow correctly? | MxM gates |
+| False positive rate | How often does gate block legitimate actions? | MxM gates |
+| Latency budget | Does gate execute within time budget? | MxM hooks |
 | Sandbox escape | Did sandboxed action stay within policy? | NemoClaw |
-| Audit completeness | Was every decision logged? | 4M enforcement.log |
+| Audit completeness | Was every decision logged? | MxM enforcement.log |
 | Agent efficiency | Did agent complete task within token budget? | Claude Code agents |
 
 ## Regression Testing
@@ -112,7 +112,7 @@ comparison = client.compare_experiments(
 - Statistical significance: is the change real or noise?
 
 ### Synthesis Application
-When modifying 4M gate scripts:
+When modifying MxM gate scripts:
 1. Run current gates against test dataset → baseline scores
 2. Modify gate script
 3. Run modified gates against same dataset → candidate scores
@@ -167,10 +167,10 @@ Production trace → Filter (error/low-score/random sample)
 - **Throughput** — target review rate
 
 ### Synthesis Application: Operator Review Queues
-4M's operator approval is synchronous (blocks until approved). LangSmith's annotation
+MxM's operator approval is synchronous (blocks until approved). LangSmith's annotation
 queue pattern enables asynchronous review:
 
-| Current (4M) | With Annotation Pattern |
+| Current (MxM) | With Annotation Pattern |
 |-------------|------------------------|
 | Gate blocks → operator approves now | Gate blocks → action queued → operator reviews later |
 | All blocked actions require approval | Sample of approved actions reviewed post-hoc |
@@ -192,7 +192,7 @@ queue pattern enables asynchronous review:
 
 ### Synthesis Design
 ```
-1. Agent calls tool → traced with 4M gate decision
+1. Agent calls tool → traced with MxM gate decision
 2. Gate decision auto-evaluated (correctness, latency)
 3. Low-confidence decisions enter operator review queue
 4. Operator provides structured feedback (not just y/n)

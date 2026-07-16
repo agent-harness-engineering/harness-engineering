@@ -14,7 +14,7 @@ The Maestro Agent eliminates this trilemma by extracting the harness pattern int
 
 ## Core Concept
 
-The Maestro Agent implements the [4M cognitive architecture](../theory/4m-reference-architecture/index.md) (Mission, Mind, Morals, Memory) as a model-agnostic runtime. It enforces the [Agentic Execution Control Plane](../docs/agentic-execution-control-plane.md) pattern -- Agent proposes, deterministic controls constrain, humans authorize irreversible risk -- across any LLM backend.
+The Maestro Agent implements the [MxM cognitive architecture](../theory/4m-reference-architecture/index.md) (Mission, Mind, Morals, Memory) as a model-agnostic runtime. It enforces the [Agentic Execution Control Plane](../docs/agentic-execution-control-plane.md) pattern -- Agent proposes, deterministic controls constrain, humans authorize irreversible risk -- across any LLM backend.
 
 ```
                   +-------------------+
@@ -34,7 +34,7 @@ The Maestro Agent implements the [4M cognitive architecture](../theory/4m-refere
                   +--------+----------+
                            |
               +------------+------------+
-              |    4M Governance Layer   |
+              |    MxM Governance Layer   |
               |  Mission | Mind | Morals | Memory
               +------------+------------+
                            |
@@ -52,7 +52,7 @@ The Maestro Agent implements the [4M cognitive architecture](../theory/4m-refere
 ## Key Properties
 
 - **Model-agnostic**: Supports any LLM that produces text or structured tool calls. Parsers handle OpenAI function calling, Anthropic tool use, and raw text action tags.
-- **Governance-first**: 4M modules (Mission, Mind, Morals, Memory) wrap all operations. Safety constraints are executable code, not prompt suggestions.
+- **Governance-first**: MxM modules (Mission, Mind, Morals, Memory) wrap all operations. Safety constraints are executable code, not prompt suggestions.
 - **Fail-closed**: Permission gates default to deny on timeout. Self-exemption is prevented by read-only config boundaries.
 - **Context-aware**: Per-model token counting with pre-compaction triggers. Sliding window preserves system prompt + persistent memory + recent turns.
 - **Risk-classified**: Execution capabilities are tiered (Read/Write/Mutate/Publish/Delete/Exfiltrate) with tier-appropriate gate actions and audit verbosity.
@@ -70,7 +70,7 @@ The Maestro Agent implements the [4M cognitive architecture](../theory/4m-refere
 
 ## Relationship to Other Work
 
-- **4M Reference Architecture** (`theory/4m-reference-architecture/`): The cognitive model the Maestro Agent implements
+- **MxM Reference Architecture** (`theory/4m-reference-architecture/`): The cognitive model the Maestro Agent implements
 - **AECP Whitepaper** (`docs/agentic-execution-control-plane.md`): The execution control plane the Maestro Agent enforces
 - **Harness Engineering Program** (`PROGRAMME.md`): The Lakatosian research program this work advances
 - **Agent Implementations** (`agents/`): Model-specific instances governed by the Maestro Agent pattern

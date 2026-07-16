@@ -65,7 +65,7 @@ All channels must be **fail-closed**: if no response within the configured timeo
 
 **What the Maestro Agent needs**: Model-aware context engineering:
 - **Token counting**: Per-model tokenizer (tiktoken for GPT-4/4o, sentencepiece for Gemini, Anthropic's tokenizer for Claude, model-specific for open-weight)
-- **Budget allocation**: Three-zone model per 4M Memory spec:
+- **Budget allocation**: Three-zone model per MxM Memory spec:
   - Pinned zone: system prompt + tool definitions + persistent memory block (never evicted)
   - Summary zone: running summary of evicted turns (regenerated on each eviction cycle)
   - Verbatim zone: recent messages (oldest evicted when budget exceeded)
@@ -142,11 +142,11 @@ All channels must be **fail-closed**: if no response within the configured timeo
 | **Build (deferred)** | 1 | Skill/Plugin System |
 | **Transfer** | 1 | Action Tag Processing |
 
-## 4M Module Mapping
+## MxM Module Mapping
 
-Each gap maps to one or more 4M modules, clarifying which governance concern it serves:
+Each gap maps to one or more MxM modules, clarifying which governance concern it serves:
 
-| Gap | Primary 4M Module | Secondary |
+| Gap | Primary MxM Module | Secondary |
 |-----|-------------------|-----------|
 | Tool Interception Proxy | Means | Morals (validation) |
 | Permission Confirmation Channel | Morals | -- |

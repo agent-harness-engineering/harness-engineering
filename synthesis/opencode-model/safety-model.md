@@ -109,7 +109,7 @@ Layer 5: OS Permissions (standard Unix user/group/other)
 ### What's Missing
 
 - **No hook/gate system** — no extensibility point for external safety logic.
-  4M's semantic gates have no integration surface in OpenCode.
+  MxM's semantic gates have no integration surface in OpenCode.
 - **No filesystem sandboxing** — agent can read/write anywhere the OS user can.
 - **No network egress control** — banned command list is a blocklist, not a sandbox.
   The agent could use `python -c "import urllib..."` to bypass the curl ban.
@@ -121,12 +121,12 @@ Layer 5: OS Permissions (standard Unix user/group/other)
 - **No content-aware gates** — permissions check tool+action+path, not the actual
   content being written or the command being executed (beyond the banned list).
 
-## 4M Coverage Gaps in OpenCode
+## MxM Coverage Gaps in OpenCode
 
-Because OpenCode has no hook system, 4M's current gate implementation (PreToolUse hooks)
+Because OpenCode has no hook system, MxM's current gate implementation (PreToolUse hooks)
 cannot be directly ported. In a synthesized system, the integration points would be:
 
-| 4M Gate | Claude Code Integration | OpenCode Integration (proposed) |
+| MxM Gate | Claude Code Integration | OpenCode Integration (proposed) |
 |---------|------------------------|-------------------------------|
 | Pre-commit | PreToolUse(Bash) hook | Wrap Bash tool's `Run()` method |
 | CDAE | PreToolUse(Bash) hook | PubSub subscriber on tool events |
@@ -154,7 +154,7 @@ OpenCode's Go interfaces enable compiled, type-safe gates (fail-closed possible,
 ```
 Layer 1: Model Safety (provider's built-in refusals)
   ↓ passes
-Layer 2: 4M Semantic Gates (Go-interface wrappers on tools)
+Layer 2: MxM Semantic Gates (Go-interface wrappers on tools)
   ↓ passes
 Layer 3: Banned Command List (OpenCode's network protection)
   ↓ passes

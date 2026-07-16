@@ -152,20 +152,20 @@ In a synthesized system, OpenCode's agent model could be extended:
 
 ```
 Coder decides to spawn subagent
-  → 4M governance gate: is this spawn allowed? (Mind module)
+  → MxM governance gate: is this spawn allowed? (Mind module)
     → Agent type → tool set (OpenCode pattern)
     → Agent type → sandbox policy (NemoClaw mapping)
     → Agent type → provider selection (multi-provider)
       → NemoClaw creates container with policy
         → Agent runs inside container with LSP access
-          → Tool calls checked by: permission service + 4M gates + sandbox
+          → Tool calls checked by: permission service + MxM gates + sandbox
             → LangSmith traces all events via PubSub subscription
               → On completion: result returned, container destroyed
 ```
 
 Each agent gets:
 1. **Tool constraints** — what tools it has (agent type)
-2. **Semantic constraints** — what it *should* do (4M governance)
+2. **Semantic constraints** — what it *should* do (MxM governance)
 3. **Structural constraints** — what it *can* do (NemoClaw sandbox)
 4. **Observability** — what it *did* (LangSmith traces via PubSub)
 5. **Code intelligence** — what the code *means* (LSP integration)

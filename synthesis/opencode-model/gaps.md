@@ -1,6 +1,6 @@
 # Capability Gaps — What OpenCode Lacks
 
-Capabilities present in Claude Code, NemoClaw, 4M, or LangSmith but absent from OpenCode,
+Capabilities present in Claude Code, NemoClaw, MxM, or LangSmith but absent from OpenCode,
 representing the synthesis opportunity.
 
 ## From Claude Code
@@ -10,7 +10,7 @@ representing the synthesis opportunity.
 The tool dispatch pipeline is closed — tools execute directly after permission approval.
 **Claude Code provides:** PreToolUse, PostToolUse, and Notification hooks with stdin JSON
 contracts and exit-code-based block/allow decisions.
-**Synthesis value:** HIGH — without hooks, 4M governance cannot be layered externally.
+**Synthesis value:** HIGH — without hooks, MxM governance cannot be layered externally.
 OpenCode's Go interfaces offer an alternative: compiled tool wrappers instead of shell hooks.
 
 ### 2. Background Agent Execution
@@ -75,36 +75,36 @@ deployment mechanism.
 
 ---
 
-## From 4M
+## From MxM
 
 ### 11. Deontic Governance Framework
 **Gap:** OpenCode has no structured governance beyond its permission service.
 No prohibitions, obligations, or process gates with documented rationale.
-**4M provides:** P1-P10 prohibitions, O1-O9 obligations, conflict resolution hierarchy.
+**MxM provides:** P1-P10 prohibitions, O1-O9 obligations, conflict resolution hierarchy.
 **Synthesis value:** HIGH — governance with reasons, not just rules.
 
 ### 12. Semantic Tool Gates
 **Gap:** OpenCode permissions check tool name + action + path, but not content.
 The same `bash` command might be safe or dangerous depending on context (branch, content, state).
-**4M provides:** Context-aware gates that inspect command content, branch state, and session context.
+**MxM provides:** Context-aware gates that inspect command content, branch state, and session context.
 **Synthesis value:** HIGH — catches violations that tool+path matching cannot.
 
 ### 13. Append-Only Audit
 **Gap:** OpenCode persists tool calls in SQLite messages but does not record permission decisions,
 gate outcomes, or governance rationale. No append-only guarantee.
-**4M provides:** `enforcement.log` with timestamped gate decisions and rationale.
+**MxM provides:** `enforcement.log` with timestamped gate decisions and rationale.
 **Synthesis value:** HIGH — essential for compliance and incident review.
 
 ### 14. Reasoning Constraints (Mind Module)
 **Gap:** OpenCode places no constraints on how the agent reasons. No confidence signaling,
 no source protocols, no circularity detection.
-**4M provides:** Methodology requirements, confidence levels, source verification.
+**MxM provides:** Methodology requirements, confidence levels, source verification.
 **Synthesis value:** MEDIUM — reduces hallucination and reasoning errors.
 
 ### 15. Cross-Agent Context (Meta-Context)
 **Gap:** OpenCode agents share no state. Subagent results are returned as text;
 no persistent cross-agent context mechanism.
-**4M provides:** Meta-context files for cross-agent state persistence.
+**MxM provides:** Meta-context files for cross-agent state persistence.
 **Synthesis value:** MEDIUM — enables multi-agent coordination without message bus.
 
 ---
@@ -157,17 +157,17 @@ other reference systems:
 | Priority | Gap | Source | Why |
 |----------|-----|--------|-----|
 | P0 | Runtime sandboxing | NemoClaw | Banned command list is bypassable |
-| P0 | Semantic tool gates | 4M | Permission service is content-blind |
-| P0 | Append-only audit | 4M | Permission decisions not persisted |
+| P0 | Semantic tool gates | MxM | Permission service is content-blind |
+| P0 | Append-only audit | MxM | Permission decisions not persisted |
 | P0 | Distributed tracing | LangSmith | PubSub bus ready for integration |
-| P1 | Hook/gate extensibility | Claude Code | Required for 4M integration |
+| P1 | Hook/gate extensibility | Claude Code | Required for MxM integration |
 | P1 | Network egress control | NemoClaw | Blocklist insufficient |
-| P1 | Deontic governance | 4M | Framework coherence |
+| P1 | Deontic governance | MxM | Framework coherence |
 | P1 | Configurable permission modes | Claude Code | Graduated autonomy |
 | P2 | Background agents | Claude Code | Long-running task support |
 | P2 | Multi-phase coordination | Claude Code | Complex workflow support |
 | P2 | Policy-as-code | NemoClaw | Team deployment |
 | P2 | Evaluation framework | LangSmith | Model selection validation |
 | P3 | Blueprint distribution | NemoClaw | Enterprise deployment |
-| P3 | Cross-agent context | 4M | Advanced workflows |
+| P3 | Cross-agent context | MxM | Advanced workflows |
 | P3 | Agent follow-up messages | Claude Code | Iterative refinement |

@@ -12,7 +12,7 @@
 
 ### Synthesis Opportunity
 Map Claude Code's tool dispatch pipeline to LangSmith-style traces. Each agent session
-becomes a root trace; each tool call becomes a child run. 4M gate decisions become
+becomes a root trace; each tool call becomes a child run. MxM gate decisions become
 metadata annotations on the run. NemoClaw sandbox operations become nested spans.
 **Result: full observability of the governance pipeline, not just the agent actions.**
 
@@ -28,7 +28,7 @@ metadata annotations on the run. NemoClaw sandbox operations become nested spans
 - Results stored as structured experiment records with per-example scores
 
 ### Synthesis Opportunity
-Apply evaluation patterns to 4M gate performance. Create datasets of known-good and
+Apply evaluation patterns to MxM gate performance. Create datasets of known-good and
 known-bad tool calls. Run gate scripts against these datasets. Score: did the gate
 correctly block/allow? Track regression when gates are modified.
 **Result: continuous validation of governance rules, not just one-off testing.**
@@ -45,7 +45,7 @@ correctly block/allow? Track regression when gates are modified.
 - Examples are immutable once added (append-only, no silent mutation)
 
 ### Synthesis Opportunity
-4M's enforcement.log is already append-only, but unstructured. LangSmith's dataset model
+MxM's enforcement.log is already append-only, but unstructured. LangSmith's dataset model
 provides a pattern for structuring audit records as evaluable datasets:
 - Each gate decision becomes a dataset example (input=tool call, output=allow/block)
 - These can then feed evaluation pipelines for gate regression testing
@@ -63,7 +63,7 @@ provides a pattern for structuring audit records as evaluable datasets:
 - Supports multi-annotator agreement tracking
 
 ### Synthesis Opportunity
-4M's operator approval (permission mode "ask") is a simple y/n gate. LangSmith's
+MxM's operator approval (permission mode "ask") is a simple y/n gate. LangSmith's
 annotation model provides richer feedback: why was this approved? Confidence level?
 Would you approve similar requests? This structured feedback could train better
 gate heuristics over time.
@@ -81,7 +81,7 @@ gate heuristics over time.
 - Prompt templates support variable interpolation and structured messages
 
 ### Synthesis Opportunity
-4M governance instructions (CLAUDE.md, mission.md, morals.md, mind.md) are currently
+MxM governance instructions (CLAUDE.md, mission.md, morals.md, mind.md) are currently
 versioned only via git. LangSmith's prompt versioning pattern enables:
 - Treating governance documents as "prompts" with explicit versioning
 - Comparing agent behavior across governance versions
@@ -100,7 +100,7 @@ versioned only via git. LangSmith's prompt versioning pattern enables:
 - Programmatic feedback via SDK alongside human feedback
 
 ### Synthesis Opportunity
-Attach feedback scores to 4M gate decisions and agent actions. Auto-score based on
+Attach feedback scores to MxM gate decisions and agent actions. Auto-score based on
 outcome (did the approved action succeed? did the blocked action get re-attempted?).
 NemoClaw sandbox violations become automatic negative feedback.
 **Result: quantitative quality metrics for the entire governance pipeline.**
@@ -126,7 +126,7 @@ a token/cost budget.
 
 ## Capability Matrix: What LangSmith Contributes
 
-| Capability | LangSmith | Claude Code | NemoClaw | 4M | Synthesis Role |
+| Capability | LangSmith | Claude Code | NemoClaw | MxM | Synthesis Role |
 |-----------|-----------|-------------|----------|-----|---------------|
 | Hierarchical tracing | Primary | — | Container logs | enforcement.log | LangSmith pattern |
 | Evaluation pipelines | Primary | — | — | — | LangSmith provides |
@@ -136,5 +136,5 @@ a token/cost budget.
 | Feedback scoring | Primary | — | — | — | LangSmith provides |
 | Cost attribution | Primary | — | cgroups | — | LangSmith provides |
 | Runtime isolation | — | Process-level | Primary | — | NemoClaw provides |
-| Semantic gates | — | Hooks | — | Primary | 4M provides |
+| Semantic gates | — | Hooks | — | Primary | MxM provides |
 | Agent management | — | Primary | — | — | Claude Code provides |

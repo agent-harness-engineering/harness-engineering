@@ -66,7 +66,7 @@ The core data object is a **Run** (equivalent to a span in OpenTelemetry):
 | `parser` | Output parsing | chain |
 
 ### Synthesis Mapping
-| LangSmith Run Type | Claude Code Equivalent | 4M Equivalent |
+| LangSmith Run Type | Claude Code Equivalent | MxM Equivalent |
 |--------------------|-----------------------|---------------|
 | `chain` (root) | Agent session | Session log entry |
 | `chain` (nested) | Subagent spawn | — |
@@ -155,7 +155,7 @@ def my_evaluator(run: Run, example: Example) -> dict:
 | Pairwise | Two runs on same example | A/B comparison |
 
 ### Synthesis Mapping
-4M gate scripts follow a similar pattern: input (tool call context) → decision (allow/block).
+MxM gate scripts follow a similar pattern: input (tool call context) → decision (allow/block).
 The evaluator contract could formalize gate testing:
 ```
 gate_evaluator(run=tool_call_context, example=known_good_decision) → score

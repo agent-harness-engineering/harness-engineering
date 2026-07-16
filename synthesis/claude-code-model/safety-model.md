@@ -31,9 +31,9 @@ These modes control the **user approval gate** only. They do not affect:
 - **No audit trail** — Tool approvals are ephemeral (session-only)
 - **No cross-agent isolation** — All agents share the same filesystem/network
 
-## 4M's Current Coverage
+## MxM's Current Coverage
 
-4M adds governance via the hook system:
+MxM adds governance via the hook system:
 
 | Gate | What it catches | Hook type |
 |------|----------------|-----------|
@@ -42,7 +42,7 @@ These modes control the **user approval gate** only. They do not affect:
 | Pre-publish | Writes to protected article directories | PreToolUse(Write/Edit) |
 | Force-push | Force push to main/master | PreToolUse(Bash) |
 
-4M's coverage is **semantic** — it understands what the operation *means*.
+MxM's coverage is **semantic** — it understands what the operation *means*.
 But it's implemented as shell scripts, which means:
 - A sufficiently creative prompt injection could potentially craft a command
   that passes the regex but achieves the blocked intent
@@ -67,7 +67,7 @@ NemoClaw addresses the structural gaps:
 ```
 Layer 1: Model Safety (Claude's built-in refusals)
   ↓ passes
-Layer 2: 4M Semantic Gates (hook scripts check intent)
+Layer 2: MxM Semantic Gates (hook scripts check intent)
   ↓ passes
 Layer 3: Permission Mode (user/operator approval)
   ↓ passes
@@ -78,7 +78,7 @@ Layer 5: Audit (all decisions logged)
 
 An action must pass ALL layers. Each layer catches different things:
 - Model safety catches obviously harmful requests
-- 4M catches context-dependent violations (secrets in commits, wrong branch)
+- MxM catches context-dependent violations (secrets in commits, wrong branch)
 - Permission mode catches anything the operator doesn't want
 - NemoClaw catches anything the policy doesn't allow, regardless of the above
 

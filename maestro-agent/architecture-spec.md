@@ -2,7 +2,7 @@
 
 ## 1. Overview
 
-The Maestro Agent is a model-agnostic orchestration layer that implements the [4M cognitive architecture](../theory/4m-reference-architecture/index.md) (Mission, Mind, Morals, Memory) as a runtime harness for arbitrary LLM backends. It enforces the [Agentic Execution Control Plane](../docs/agentic-execution-control-plane.md) principle: **agent proposes, deterministic controls constrain, accountable humans authorize irreversible risk**.
+The Maestro Agent is a model-agnostic orchestration layer that implements the [MxM cognitive architecture](../theory/4m-reference-architecture/index.md) (Mission, Mind, Morals, Memory) as a runtime harness for arbitrary LLM backends. It enforces the [Agentic Execution Control Plane](../docs/agentic-execution-control-plane.md) principle: **agent proposes, deterministic controls constrain, accountable humans authorize irreversible risk**.
 
 This specification defines the components, interfaces, data flows, and governance integration required to achieve harness capabilities equivalent to Claude Code while remaining backend-agnostic.
 
@@ -47,7 +47,7 @@ This specification defines the components, interfaces, data flows, and governanc
        +-------------------+---------------+
                            |
 +======+===================v===============+====================+
-|                  4M Governance Layer                           |
+|                  MxM Governance Layer                           |
 |                                                               |
 |  Mission          Mind           Morals          Memory       |
 |  (Objective       (Inference     (Policy         (State &     |
@@ -76,7 +76,7 @@ This specification defines the components, interfaces, data flows, and governanc
 
 ### 3.2 Component Inventory
 
-| Component | Layer | 4M Module | Priority |
+| Component | Layer | MxM Module | Priority |
 |-----------|-------|-----------|----------|
 | Streaming Adapter | Ingress | Means | P2 |
 | Output Validator | Ingress | Morals + Mind | P1 |
@@ -228,7 +228,7 @@ PermissionDecision {
 | Llama/Mistral | sentencepiece (model-specific) | sentencepiece |
 | Custom | configurable | pluggable |
 
-**Three-zone budget** (per 4M Memory spec):
+**Three-zone budget** (per MxM Memory spec):
 
 ```
 +--------------------------------------------------+
@@ -385,7 +385,7 @@ AuditStore {
     b. escalate -> relay to human with full context, await decision
     c. deny -> return error to model
     d. fail_closed -> deny on timeout (fail-closed)
-9.  4M Governance Layer applies mission, mind, morals, and memory constraints
+9.  MxM Governance Layer applies mission, mind, morals, and memory constraints
 10. Gate Scripts run pre-execution checks (CDAE, pre-commit, etc.)
 11. Execution Layer performs the action
 12. Result logged to Audit & Provenance Store
@@ -394,9 +394,9 @@ AuditStore {
 15. Response delivered to user
 ```
 
-### 6.2 4M Cross-Cutting Channels
+### 6.2 MxM Cross-Cutting Channels
 
-The four cross-cutting channels from the 4M spec operate within this flow:
+The four cross-cutting channels from the MxM spec operate within this flow:
 
 | Channel | Trigger | Effect in Maestro Agent |
 |---------|---------|----------------------|
@@ -407,11 +407,11 @@ The four cross-cutting channels from the 4M spec operate within this flow:
 
 ## 7. Governance Integration
 
-### 7.1 4M Module Mapping
+### 7.1 MxM Module Mapping
 
-Every Maestro Agent component maps to a 4M module, ensuring no governance gap:
+Every Maestro Agent component maps to an MxM module, ensuring no governance gap:
 
-| 4M Module | Maestro Agent Components |
+| MxM Module | Maestro Agent Components |
 |-----------|------------------------|
 | **Mission** | Skill/Plugin System, sub-mission router, intent classifier |
 | **Mind** | Context Window Manager (reasoning quality), cognitive prompt fragments, inference mode selection |
@@ -509,4 +509,4 @@ Each component boundary and cross-cutting channel is an independently testable i
 | Severity gating | Output Validator | Unit tests: format errors retry, suspicious actions escalate |
 | Audit integrity | Audit & Provenance Store | Integration tests: hash chain verification, append-only enforcement |
 | End-to-end safety | Full pipeline | Adversarial tests: prompt injection, tool abuse, escape attempts |
-| Cross-cutting channels | 4M channels | Simulation tests: trigger conditions -> expected payload and downstream effect |
+| Cross-cutting channels | MxM channels | Simulation tests: trigger conditions -> expected payload and downstream effect |

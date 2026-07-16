@@ -13,7 +13,7 @@
 NemoClaw already supports model routing (NVIDIA Cloud, NIM, vLLM, Ollama). OpenCode's provider
 abstraction is a **Go-native implementation** of the same pattern. In a synthesized system:
 - OpenCode's `Provider` interface could wrap NemoClaw's inference gateway
-- 4M governance could gate provider selection (e.g., prohibit cloud providers in air-gapped mode)
+- MxM governance could gate provider selection (e.g., prohibit cloud providers in air-gapped mode)
 - LangSmith tracing could intercept the `StreamResponse` channel for per-token observability
 
 **Key insight: provider abstraction is the enabler for model-agnostic governance.**
@@ -31,7 +31,7 @@ abstraction is a **Go-native implementation** of the same pattern. In a synthesi
 - Tools that modify state (Bash, Edit, Write, Patch) require permission; read-only tools (Glob, Grep, Ls, View) do not
 
 ### Synthesis Opportunity
-Combine with NemoClaw: tool execution inside sandboxed containers. Combine with 4M:
+Combine with NemoClaw: tool execution inside sandboxed containers. Combine with MxM:
 semantic gates as a pre-tool-execution check. Unlike Claude Code's hook-based extensibility,
 OpenCode's tool system is **Go interface-based** — extending it means implementing `BaseTool`,
 not writing shell scripts.
@@ -54,7 +54,7 @@ The Coder/Task split maps cleanly to NemoClaw sandbox policy presets:
 - **Coder** → baseline sandbox (filesystem write allowed within project, network restricted)
 - **Task** → read-only sandbox (no writes, no network, no bash)
 
-4M governance could enforce agent type selection: the Mind module's reasoning constraints
+MxM governance could enforce agent type selection: the Mind module's reasoning constraints
 could require Task agents for exploratory queries, reserving Coder for confirmed modifications.
 
 **This is simpler than Claude Code's arbitrary agent types — two tiers with clear privilege boundaries.**
@@ -77,7 +77,7 @@ No other reference system has native LSP integration:
 - NemoClaw has no code intelligence layer
 - LangSmith traces tool calls but doesn't understand code structure
 
-In a synthesized system, LSP diagnostics could feed 4M's Quality Assurance gate:
+In a synthesized system, LSP diagnostics could feed MxM's Quality Assurance gate:
 **agent edits trigger LSP diagnostics → new errors block the edit → agent must fix before proceeding.**
 This creates a compile-time safety net that is language-aware, not just pattern-based.
 
@@ -98,7 +98,7 @@ NemoClaw has its own operator approval TUI. OpenCode's Bubble Tea TUI could serv
 the **unified operator interface** for a synthesized system:
 - Permission requests (OpenCode pattern)
 - Sandbox policy violations (NemoClaw pattern)
-- 4M gate decisions (governance pattern)
+- MxM gate decisions (governance pattern)
 - LangSmith trace summaries (observability pattern)
 
 All rendered in a single, composable terminal interface.
@@ -118,9 +118,9 @@ All rendered in a single, composable terminal interface.
 ### Synthesis Opportunity
 Claude Code sessions are ephemeral (no persistent state beyond files). OpenCode's SQLite-backed
 sessions provide a **durable audit surface**:
-- 4M's append-only audit log could be implemented as SQLite tables alongside sessions
+- MxM's append-only audit log could be implemented as SQLite tables alongside sessions
 - LangSmith traces could be stored in the same database for correlated analysis
-- Cost tracking enables governance-level budget enforcement (4M could set per-agent cost limits)
+- Cost tracking enables governance-level budget enforcement (MxM could set per-agent cost limits)
 
 **Session persistence turns the agent from a stateless tool into an auditable actor.**
 
@@ -137,7 +137,7 @@ sessions provide a **durable audit surface**:
 
 ### Synthesis Opportunity
 This is the internal wiring that enables extensibility. In a synthesized system:
-- 4M gates could subscribe to agent events (pre-tool, post-tool) via the PubSub bus
+- MxM gates could subscribe to agent events (pre-tool, post-tool) via the PubSub bus
 - NemoClaw sandbox state changes could publish events on the same bus
 - LangSmith tracing could be a subscriber that captures all events for observability
 
@@ -147,20 +147,20 @@ This is the internal wiring that enables extensibility. In a synthesized system:
 
 ## Capability Matrix: What Each System Contributes
 
-| Capability | OpenCode | Claude Code | NemoClaw | 4M | LangSmith | Synthesis Role |
+| Capability | OpenCode | Claude Code | NemoClaw | MxM | LangSmith | Synthesis Role |
 |-----------|----------|-------------|----------|-----|-----------|---------------|
-| Tool dispatch | Go interfaces | Hook-gated | — | Gates | Traces | OpenCode interface + 4M gates |
+| Tool dispatch | Go interfaces | Hook-gated | — | Gates | Traces | OpenCode interface + MxM gates |
 | Provider abstraction | Primary | Claude-only | Routing | — | — | OpenCode + NemoClaw routing |
 | OS isolation | — | — | Primary | — | — | NemoClaw provides |
 | Network policy | Banned commands | — | Primary | — | — | NemoClaw provides |
-| Semantic safety | — | — | — | Primary | — | 4M provides |
+| Semantic safety | — | — | — | Primary | — | MxM provides |
 | Agent coordination | Coder/Task | General/Explore/Plan | — | — | — | Merged type system |
 | Agent isolation | Process-level | Process-level | Container | — | — | NemoClaw provides |
 | LSP intelligence | Primary | — | — | — | — | OpenCode provides |
 | Permission UI | TUI dialog | CLI prompt | Operator TUI | — | — | Unified TUI |
 | Session persistence | SQLite | Ephemeral | — | — | — | OpenCode provides |
 | Event bus | PubSub | Hooks | — | — | Callbacks | OpenCode PubSub |
-| Audit | Session logs | Ephemeral | Container logs | Append-only | Trace store | 4M + SQLite + LangSmith |
+| Audit | Session logs | Ephemeral | Container logs | Append-only | Trace store | MxM + SQLite + LangSmith |
 | Model flexibility | Multi-provider | Claude only | Any model | Claude (current) | Any model | OpenCode + NemoClaw |
 | Cost tracking | Per-session | — | — | — | Per-run | OpenCode provides |
 | Context management | Auto-compact | Auto-compress | — | — | — | Merged strategies |

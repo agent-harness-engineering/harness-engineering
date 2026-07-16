@@ -152,7 +152,7 @@ The Type Resolver converts each agent type declaration into a NemoClaw-compatibl
 | executor | ro project + rw /tmp/build | permissive (needs build tools) | provider + registries | generous |
 | coordinator | ro all + rw meta-context | restrictive | provider only | minimal |
 
-## Agent Type to 4M Gate Mapping
+## Agent Type to MxM Gate Mapping
 
 The Governance Engine selects gate checks based on agent type:
 

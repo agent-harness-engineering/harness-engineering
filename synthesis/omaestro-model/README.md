@@ -9,7 +9,7 @@ independently analyzed models, each contributing a distinct capability layer:
 
 | Model | License | Layer | Question It Answers |
 |-------|---------|-------|-------------------|
-| **4M** | Ologos (ours) | Governance | *Why* should the agent act? |
+| **MxM** | Ologos (ours) | Governance | *Why* should the agent act? |
 | **NemoClaw** | Apache 2.0 | Enforcement | *What* can the agent physically do? |
 | **OpenCode** | MIT | Agent Loop | *How* does the agent execute? |
 | **Claude Code** | Public interfaces | UX Patterns | *What does mature agent UX look like?* |
@@ -21,7 +21,7 @@ independently analyzed models, each contributing a distinct capability layer:
 
 ```yaml
 agent-type: researcher
-  governance:   # 4M
+  governance:   # MxM
     mind: source-protocol, confidence-signaling
     morals: [P1, P3, P7]  # applicable prohibitions
     tools: [read, grep, glob, fetch]  # permitted tools
@@ -40,7 +40,7 @@ agent-type: researcher
 ```
 
 From this single declaration, omaestro generates:
-1. A **4M gate configuration** — semantic pre-execution checks
+1. A **MxM gate configuration** — semantic pre-execution checks
 2. A **NemoClaw sandbox policy** — OS-level isolation
 3. A **trace subscription** — LangSmith-pattern observability
 4. An **agent loop configuration** — provider, tools, context
@@ -68,7 +68,7 @@ See [LICENSE](LICENSE) and [NOTICE](NOTICE) for details.
 ## Legal Provenance
 
 Every design decision in omaestro traces to one of:
-- **Original work** (4M framework, Ologos IP)
+- **Original work** (MxM framework, Ologos IP)
 - **Apache 2.0 source** (NemoClaw — derivative works permitted with attribution)
 - **MIT source** (OpenCode, LangSmith SDK — unrestricted use)
 - **Public interface description** (Claude Code — behavioral observation, no source)

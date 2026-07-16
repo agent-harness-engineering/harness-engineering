@@ -1,6 +1,6 @@
 ---
 layout: article
-title: "The 4M Model: A Reference Architecture for LLM Harness Engineering"
+title: "MxM: A Reference Architecture for LLM Harness Engineering"
 date: 2026-04-26
 author: "JD Longmire"
 featured: true
@@ -13,17 +13,17 @@ tags:
 description: "A principled reference architecture organising LLM harness concerns into four modules with separated concerns and explicit coupling channels: Mission, Mind, Morals, and Memory."
 ---
 
-# The 4M Model: A Reference Architecture for LLM Harness Engineering
+# MxM: A Reference Architecture for LLM Harness Engineering
 
 ## Abstract
 
-Large language model applications increasingly depend on the orchestration layer that surrounds the model itself. This article introduces the **4M Model**, a generic reference architecture that decomposes LLM harness engineering into four modules with separated concerns and explicit coupling channels, each grounded in a distinct philosophical domain: **Mission** (telos and mereology), **Mind** (ontic and epistemic grounding, with deductive, inductive, and abductive inference modes unified by a Bayesian belief-revision framework), **Morals** (deontic constraints), and **Memory** (temporal continuity). The architecture specifies a hybrid interaction model combining a layered inference pipeline with explicit cross-cutting channels, and distinguishes the cognitive architecture (4M) from the execution substrate (**Means**) through a separate interface contract. The result is a system whose concerns are independently testable, composable, and portable across model providers and deployment modes. Section 6 provides implementation guidance for realising each module in practice.
+Large language model applications increasingly depend on the orchestration layer that surrounds the model itself. This article introduces the **MxM**, a generic reference architecture that decomposes LLM harness engineering into four modules with separated concerns and explicit coupling channels, each grounded in a distinct philosophical domain: **Mission** (telos and mereology), **Mind** (ontic and epistemic grounding, with deductive, inductive, and abductive inference modes unified by a Bayesian belief-revision framework), **Morals** (deontic constraints), and **Memory** (temporal continuity). The architecture specifies a hybrid interaction model combining a layered inference pipeline with explicit cross-cutting channels, and distinguishes the cognitive architecture (MxM) from the execution substrate (**Means**) through a separate interface contract. The result is a system whose concerns are independently testable, composable, and portable across model providers and deployment modes. Section 6 provides implementation guidance for realising each module in practice.
 
 ## 1. Introduction
 
 The term "prompt engineering" understates the engineering discipline required to build production LLM applications. Beyond the prompt itself lies a constellation of concerns: context management, tool orchestration, behavioural constraints, memory persistence, intent classification, and output validation. These concerns are often entangled in monolithic codebases where a system prompt performs double duty as both cognitive instruction and alignment policy, where history management is ad hoc, and where constraint enforcement exists only as natural-language guidance with no runtime guarantees.
 
-The 4M Model proposes a separation of concerns for this orchestration layer. Drawing on established principles from software architecture (Bass, Clements and Kazman, 2012) and emerging work on LLM application design (LangChain, 2023; Anthropic, 2025), it organises harness functionality into four modules defined by their **role**, not by their implementation mechanism. A system prompt paragraph, a database query, a deterministic classifier, and an output filter may all belong to different modules despite coexisting in the same codebase. The question the 4M Model answers is not "where does the code live?" but "which concern does it serve?"
+The MxM proposes a separation of concerns for this orchestration layer. Drawing on established principles from software architecture (Bass, Clements and Kazman, 2012) and emerging work on LLM application design (LangChain, 2023; Anthropic, 2025), it organises harness functionality into four modules defined by their **role**, not by their implementation mechanism. A system prompt paragraph, a database query, a deterministic classifier, and an output filter may all belong to different modules despite coexisting in the same codebase. The question the MxM answers is not "where does the code live?" but "which concern does it serve?"
 
 ### 1.1 Terminology
 
@@ -57,7 +57,7 @@ The distinction between base and sub-mission prevents a common failure mode in m
 - **Static base (telos)**: Identity, domain scope, and default tone. The system's chief end. Changed only by explicit reconfiguration, not by user input.
 - **Dynamic sub-missions (mereological parts)**: Activated by intent classification. Each sub-mission specifies its own guide fragments, tool subsets, and inference parameters (temperature, token budget). Must compose coherently with the base mission.
 - **Composition rules**: Sub-missions are validated against the base mission. Conflicting or incoherent sub-missions are rejected.
-- **Intent classification**: The mechanism that selects sub-missions. The 4M Model is agnostic to implementation; classification may be deterministic (keyword matching), probabilistic (embedding similarity), or model-based (LLM-as-classifier).
+- **Intent classification**: The mechanism that selects sub-missions. The MxM is agnostic to implementation; classification may be deterministic (keyword matching), probabilistic (embedding similarity), or model-based (LLM-as-classifier).
 
 ### 2.2 Mind
 
@@ -79,7 +79,7 @@ This taxonomy also provides a natural quality gate: if an agent claims deductive
 
 #### 2.2.2 Bayesian Integration
 
-The three inference modes generate evidence; they do not, by themselves, produce a coherent belief state. A system that deduces one thing, induces another, and abduces a third needs a principled mechanism to reconcile them. **Bayesian updating** provides the preferred formal model for this confidence revision. In the generic 4M specification, the Bayesian framework structures belief integration as follows:
+The three inference modes generate evidence; they do not, by themselves, produce a coherent belief state. A system that deduces one thing, induces another, and abduces a third needs a principled mechanism to reconcile them. **Bayesian updating** provides the preferred formal model for this confidence revision. In the generic MxM specification, the Bayesian framework structures belief integration as follows:
 
 - **Prior formation**: Memory supplies priors (past sessions, retrieved context). Mission constrains the prior space (irrelevant hypotheses receive zero prior weight).
 - **Likelihood evaluation**: Mind runs one or more inference modes and produces evidence.
@@ -113,7 +113,7 @@ Morals is grounded in **deontic** logic: the domain of obligations, permissions,
 
 This framing resolves a persistent ambiguity in LLM application design. When behavioural constraints exist only as natural-language instructions in the system prompt, they are suggestions to the model's reasoning process. They belong to Mind. When constraints are enforced by code that executes independently of the model's output, they belong to Morals. A mature harness will have both: Mind-level guidance that shapes the model's intent, and Morals-level enforcement that validates its actions.
 
-The 4M Model specifies Morals as an **interface**: constraint taxonomy, override hierarchy, and conflict resolution protocol. The spec is agnostic to which ethical framework populates it. A reference implementation may ground its Morals in a specific ethical tradition, demonstrating what coherent Mind-Morals integration looks like when the two modules share ontological ground. The generic spec requires only that *a* ground exist and that it be explicit. Many AI ethics frameworks move quickly from values to rules without specifying the grounding layer that adjudicates novel cases. The result is brittleness under conflict, ambiguity, or domain transfer.
+The MxM specifies Morals as an **interface**: constraint taxonomy, override hierarchy, and conflict resolution protocol. The spec is agnostic to which ethical framework populates it. A reference implementation may ground its Morals in a specific ethical tradition, demonstrating what coherent Mind-Morals integration looks like when the two modules share ontological ground. The generic spec requires only that *a* ground exist and that it be explicit. Many AI ethics frameworks move quickly from values to rules without specifying the grounding layer that adjudicates novel cases. The result is brittleness under conflict, ambiguity, or domain transfer.
 
 This also clarifies the relationship between Mission and Morals. Mission without Morals is optimisation: the system pursues its chief end with no constraint on means. Mission grounded in Morals is vocation: the system pursues its chief end *rightly*. The deontic layer ensures that the teleological layer is not merely effective but legitimate.
 
@@ -139,7 +139,7 @@ The module's core challenge is context engineering under token constraints. An L
 
 ## 3. Interaction Model: Hybrid Pipeline with Cross-Cutting Channels
 
-The four modules do not operate in isolation. The 4M Model specifies a **hybrid** interaction model: a primary inference pipeline that processes each request sequentially, combined with named cross-cutting channels that allow modules to communicate outside the pipeline order.
+The four modules do not operate in isolation. The MxM specifies a **hybrid** interaction model: a primary inference pipeline that processes each request sequentially, combined with named cross-cutting channels that allow modules to communicate outside the pipeline order.
 
 ### 3.1 Primary Pipeline
 
@@ -187,13 +187,13 @@ Each cross-cutting channel satisfies three properties:
 
 ## 4. The Means Layer: Execution Substrate
 
-The 4M Model describes the agent's cognitive architecture: how it reasons, what it pursues, what constrains it, and what it remembers. A natural question arises: where does tool orchestration, API invocation, file I/O, sandbox enforcement, and error recovery belong?
+The MxM describes the agent's cognitive architecture: how it reasons, what it pursues, what constrains it, and what it remembers. A natural question arises: where does tool orchestration, API invocation, file I/O, sandbox enforcement, and error recovery belong?
 
-The answer is that these are not a fifth M. They belong to a separate architectural layer: **Means**. The relationship between 4M and Means is directional:
+The answer is that these are not a fifth M. They belong to a separate architectural layer: **Means**. The relationship between MxM and Means is directional:
 
 ```
 +-----------------------------+
-|         4M Harness          |  <-- cognitive architecture
+|         MxM Harness          |  <-- cognitive architecture
 |  Mission . Mind . Morals .  |
 |         Memory              |
 +-------------+---------------+
@@ -206,9 +206,9 @@ The answer is that these are not a fifth M. They belong to a separate architectu
 +-----------------------------+
 ```
 
-4M decides what to do; Means handles how it gets done. Mind reasons about *which* tool to use; Means handles *how* that tool executes, what happens when it fails, and what the agent is permitted to touch. The distinction is analogous to the difference between a steering system and an engine: the steering system (4M) controls direction; the engine (Means) provides motive force. They are coupled but architecturally distinct.
+MxM decides what to do; Means handles how it gets done. Mind reasons about *which* tool to use; Means handles *how* that tool executes, what happens when it fails, and what the agent is permitted to touch. The distinction is analogous to the difference between a steering system and an engine: the steering system (MxM) controls direction; the engine (Means) provides motive force. They are coupled but architecturally distinct.
 
-This separation yields a practical benefit: **Means is swappable**. A single 4M harness specification can drive different Means implementations:
+This separation yields a practical benefit: **Means is swappable**. A single MxM harness specification can drive different Means implementations:
 
 - **Local tools**: file system access, shell execution, local databases
 - **Cloud APIs**: managed services, third-party integrations, SaaS endpoints
@@ -216,11 +216,11 @@ This separation yields a practical benefit: **Means is swappable**. A single 4M 
 
 The same Mission, Mind, Morals, and Memory configuration produces consistent cognitive behaviour regardless of which Means implementation provides the execution substrate. This is how dual-mode deployments (connected vs. air-gapped) fall out naturally from the architecture rather than requiring special-case handling.
 
-Means is specified as an **interface contract**: the set of capabilities that a conforming execution layer must provide, the error semantics it must respect, and the observability hooks it must expose. The 4M harness depends on the Means interface, never on a specific implementation. This contract is the boundary between the cognitive architecture and the world.
+Means is specified as an **interface contract**: the set of capabilities that a conforming execution layer must provide, the error semantics it must respect, and the observability hooks it must expose. The MxM harness depends on the Means interface, never on a specific implementation. This contract is the boundary between the cognitive architecture and the world.
 
 ## 5. Design Principles
 
-The 4M Model is guided by five principles that constrain implementation choices.
+The MxM is guided by five principles that constrain implementation choices.
 
 ### 5.1 Separation of Concerns
 
@@ -228,7 +228,7 @@ The modules are conceptually orthogonal but operationally coupled through explic
 
 ### 5.2 Mechanism Neutrality
 
-Modules are defined by concern, not by implementation mechanism. Mission may be realised through system prompt text, a configuration file, or a database of intent-to-guide mappings. Memory may use SQLite, Redis, a vector store, or in-memory data structures. Morals may employ regex pattern matching, AST analysis, or a secondary LLM call. The 4M Model prescribes the *what*, not the *how*.
+Modules are defined by concern, not by implementation mechanism. Mission may be realised through system prompt text, a configuration file, or a database of intent-to-guide mappings. Memory may use SQLite, Redis, a vector store, or in-memory data structures. Morals may employ regex pattern matching, AST analysis, or a secondary LLM call. The MxM prescribes the *what*, not the *how*.
 
 ### 5.3 Defence in Depth
 
@@ -244,7 +244,7 @@ Every module boundary and cross-cutting channel is an interface that can be test
 
 ## 6. Implementation Guidance
 
-This section provides guidance for realising each 4M module in a concrete system. The recommendations are mechanism-neutral: they describe what a conforming implementation must achieve, not which libraries or languages to use.
+This section provides guidance for realising each MxM module in a concrete system. The recommendations are mechanism-neutral: they describe what a conforming implementation must achieve, not which libraries or languages to use.
 
 ### 6.1 Implementing Mission
 
@@ -260,7 +260,7 @@ A conforming Mission implementation requires:
 
 A conforming Mind implementation requires:
 
-**Cognitive instruction separated from behavioural rules.** Guide fragments that shape how the model reasons (metacognitive calibration, confidence signaling, reasoning strategies) belong to Mind. Guide fragments that constrain what the model may do (output restrictions, refusal conditions) belong to Morals. Mixing them in a single undifferentiated system prompt is the most common 4M boundary violation.
+**Cognitive instruction separated from behavioural rules.** Guide fragments that shape how the model reasons (metacognitive calibration, confidence signaling, reasoning strategies) belong to Mind. Guide fragments that constrain what the model may do (output restrictions, refusal conditions) belong to Morals. Mixing them in a single undifferentiated system prompt is the most common MxM boundary violation.
 
 **Structured reasoning loops.** Whether using ReAct-style tool calling, chain-of-thought prompting, or multi-step planning, the reasoning process should be explicit and bounded. Set a maximum iteration count for tool-calling loops. Log each reasoning step. The model should be able to observe its own tool results and decide whether to continue or produce a final response.
 
@@ -282,7 +282,7 @@ A conforming Morals implementation requires **defence in depth**: multiple indep
 
 5. **Output validation**: Post-generation checks on model output for format compliance, content policy, and factual consistency against known sources.
 
-The system prompt may contribute an additional non-executable layer: behavioural guidance that shapes the model's intent. This layer belongs to Mind in the 4M taxonomy but complements the executable Morals layers by reducing the frequency of constraint violations that the runtime gates must catch. The critical principle is that safety-critical constraints must not depend solely on prompt-level guidance.
+The system prompt may contribute an additional non-executable layer: behavioural guidance that shapes the model's intent. This layer belongs to Mind in the MxM taxonomy but complements the executable Morals layers by reducing the frequency of constraint violations that the runtime gates must catch. The critical principle is that safety-critical constraints must not depend solely on prompt-level guidance.
 
 ### 6.4 Implementing Memory
 
@@ -318,21 +318,21 @@ Each of the four channels (Section 3.2) requires a concrete realisation:
 
 ## 7. Comparison with Existing Frameworks
 
-The 4M Model is not the first attempt to structure LLM application architecture. It builds on and differs from several existing approaches.
+The MxM is not the first attempt to structure LLM application architecture. It builds on and differs from several existing approaches.
 
-**LangChain** (LangChain, 2023) provides a toolkit of composable abstractions (chains, agents, memory, retrievers) but does not prescribe a separation of concerns at the harness level. A LangChain application may implement all four 4M modules, but the framework does not distinguish between them; a chain that retrieves context, reasons about it, and validates output is a single undifferentiated unit. The 4M Model adds the architectural layer that LangChain's abstractions leave implicit.
+**LangChain** (LangChain, 2023) provides a toolkit of composable abstractions (chains, agents, memory, retrievers) but does not prescribe a separation of concerns at the harness level. A LangChain application may implement all four MxM modules, but the framework does not distinguish between them; a chain that retrieves context, reasons about it, and validates output is a single undifferentiated unit. The MxM adds the architectural layer that LangChain's abstractions leave implicit.
 
-**DSPy** (Khattab et al., 2024) focuses on optimising prompt programs through learned examples and automated tuning. Its concern is primarily the Mind module: improving reasoning quality through systematic prompt optimisation. The 4M Model is complementary; DSPy techniques could be applied within the Mind module without affecting Mission, Memory, or Morals.
+**DSPy** (Khattab et al., 2024) focuses on optimising prompt programs through learned examples and automated tuning. Its concern is primarily the Mind module: improving reasoning quality through systematic prompt optimisation. The MxM is complementary; DSPy techniques could be applied within the Mind module without affecting Mission, Memory, or Morals.
 
-**Anthropic's system prompt guidelines** (Anthropic, 2025) recommend structuring system prompts with distinct sections for identity, instructions, constraints, and examples. This is structurally similar to the Mission/Mind/Morals decomposition but remains within the system prompt. The 4M Model extends the separation beyond the prompt to the entire harness, encompassing runtime enforcement, persistent state, and cross-module communication.
+**Anthropic's system prompt guidelines** (Anthropic, 2025) recommend structuring system prompts with distinct sections for identity, instructions, constraints, and examples. This is structurally similar to the Mission/Mind/Morals decomposition but remains within the system prompt. The MxM extends the separation beyond the prompt to the entire harness, encompassing runtime enforcement, persistent state, and cross-module communication.
 
 **AutoGPT and similar agent frameworks** (Significant Gravitas, 2023) implement a loop of reasoning, tool use, and memory that maps loosely to Mind, Mission, and Memory. However, they typically lack a distinct Morals module; constraint enforcement is embedded in the reasoning prompt and the tool implementations, with no architectural separation or defence-in-depth requirement.
 
 ### 7.1 Comparative Summary
 
-| Framework | Primary Contribution | 4M Diagnosis |
+| Framework | Primary Contribution | MxM Diagnosis |
 |-----------|---------------------|--------------|
-| LangChain | Component/tool orchestration | Supplies Means and partial Memory/Mind abstractions, but does not enforce 4M separation |
+| LangChain | Component/tool orchestration | Supplies Means and partial Memory/Mind abstractions, but does not enforce MxM separation |
 | DSPy | Declarative optimisation of LM programs | Strongly Mind-oriented: prompt/program optimisation within the epistemic layer |
 | ReAct | Interleaved reasoning and action | Mind pattern using Means feedback; no distinct Mission, Morals, or Memory |
 | AutoGPT | Agent loop with memory and tools | Loose Mission-Mind-Memory loop; weaker explicit Morals |
@@ -340,9 +340,9 @@ The 4M Model is not the first attempt to structure LLM application architecture.
 
 ## 8. Limitations and Future Work
 
-The 4M Model as presented has several limitations that warrant further investigation.
+The MxM as presented has several limitations that warrant further investigation.
 
-**Empirical validation**: The architecture is derived from engineering experience and first principles rather than controlled experimentation. Comparative studies measuring the effect of 4M-structured harnesses on task completion, safety, and maintainability against unstructured alternatives would strengthen the model's claims.
+**Empirical validation**: The architecture is derived from engineering experience and first principles rather than controlled experimentation. Comparative studies measuring the effect of MxM-structured harnesses on task completion, safety, and maintainability against unstructured alternatives would strengthen the model's claims.
 
 **Channel formalisation**: The cross-cutting channels are currently specified informally. A formal interface definition language or contract specification (in the tradition of design-by-contract; Meyer, 1997) would enable automated verification of channel compliance and support tooling for channel-aware testing.
 
@@ -352,17 +352,17 @@ The 4M Model as presented has several limitations that warrant further investiga
 
 ## 9. Conclusion
 
-The 4M Model provides a vocabulary and structure for the engineering work that surrounds LLM inference. By grounding each module in a distinct philosophical domain (telos, epistemics, deontics, temporality), decomposing harness concerns into four modules with separated concerns, specifying their interactions through a hybrid pipeline with named cross-cutting channels, and separating the cognitive architecture from the execution substrate (Means), it transforms an ad hoc collection of prompt fragments, tool handlers, and state management into a principled architecture.
+The MxM provides a vocabulary and structure for the engineering work that surrounds LLM inference. By grounding each module in a distinct philosophical domain (telos, epistemics, deontics, temporality), decomposing harness concerns into four modules with separated concerns, specifying their interactions through a hybrid pipeline with named cross-cutting channels, and separating the cognitive architecture from the execution substrate (Means), it transforms an ad hoc collection of prompt fragments, tool handlers, and state management into a principled architecture.
 
-The philosophical grounding is not incidental. It gives each module a non-overlapping jurisdiction that resolves ambiguity about where design decisions belong. Mind's internal structure (deductive, inductive, and abductive inference unified by a Bayesian belief-revision framework) provides the formal model for confidence signaling; concrete implementations may approximate this through calibrated confidence bands, verifier outputs, or source-weighting rules. The Means layer's separation from the cognitive architecture enables deployment portability: the same 4M specification drives local, cloud, or air-gapped execution environments without modification.
+The philosophical grounding is not incidental. It gives each module a non-overlapping jurisdiction that resolves ambiguity about where design decisions belong. Mind's internal structure (deductive, inductive, and abductive inference unified by a Bayesian belief-revision framework) provides the formal model for confidence signaling; concrete implementations may approximate this through calibrated confidence bands, verifier outputs, or source-weighting rules. The Means layer's separation from the cognitive architecture enables deployment portability: the same MxM specification drives local, cloud, or air-gapped execution environments without modification.
 
 The model is deliberately generic. It does not prescribe programming languages, databases, model providers, or ethical frameworks. It does prescribe that the four concerns be separated, that their boundaries be testable, that constraint enforcement be executable rather than merely advisory, that state management follow single-source-of-truth principles, and that the Morals module be grounded in an explicit ethical framework rather than an ad hoc rule list. These prescriptions are informed by the engineering reality that LLM harnesses are software systems, and software systems benefit from separation of concerns.
 
-These prescriptions are practical. A single-server deployment with deterministic intent classification, multi-layer constraint enforcement, token-aware context management, and database-backed persistent memory can implement all four modules and all four cross-cutting channels without exotic infrastructure. The 4M Model does not require a particular tech stack; it requires clarity about which code serves which concern.
+These prescriptions are practical. A single-server deployment with deterministic intent classification, multi-layer constraint enforcement, token-aware context management, and database-backed persistent memory can implement all four modules and all four cross-cutting channels without exotic infrastructure. The MxM does not require a particular tech stack; it requires clarity about which code serves which concern.
 
-## Appendix: 4M Conformance Checklist
+## Appendix: MxM Conformance Checklist
 
-The following checklist provides a practical diagnostic for evaluating whether a harness implementation conforms to the 4M architecture.
+The following checklist provides a practical diagnostic for evaluating whether a harness implementation conforms to the MxM architecture.
 
 1. **Module coverage**: Does every active behaviour map to Mission, Mind, Morals, Memory, or Means?
 2. **Executable enforcement**: Are safety-critical constraints enforced outside the model (code-level gates), not only in the prompt?
@@ -370,7 +370,7 @@ The following checklist provides a practical diagnostic for evaluating whether a
 4. **Single source of truth**: Is persistent memory governed by a single authoritative store, with all other representations derived?
 5. **Grounded confidence**: Are confidence signals derived from evidence, retrieval, verification, or explicit calibration rather than model self-report alone?
 6. **Observable coupling**: Are cross-module channels named, directional, and observable in logs or traces?
-7. **Means independence**: Can the execution layer (Means) be swapped without rewriting the cognitive architecture (4M)?
+7. **Means independence**: Can the execution layer (Means) be swapped without rewriting the cognitive architecture (MxM)?
 
 ---
 
